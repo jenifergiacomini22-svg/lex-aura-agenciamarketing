@@ -1061,11 +1061,12 @@
       </div>
       <form id="form-prompt" onsubmit="app.savePrompt(event)">
         <input type="hidden" id="prompt-contexto">
+        <input type="hidden" id="prompt-edit-id">
         <input type="text" id="prompt-titulo" placeholder="Título do prompt" required>
         <label>Prompt completo</label>
         <textarea id="prompt-conteudo" placeholder="Cole ou escreva o prompt aqui..." required style="min-height:160px;font-family:monospace;font-size:0.85rem;"></textarea>
         <div class="modal-buttons">
-          <button type="submit" class="btn-primary">Salvar Prompt</button>
+          <button type="submit" class="btn-primary" id="prompt-submit-btn">Salvar Prompt</button>
           <button type="button" class="btn-secondary" onclick="app.closeModal('modal-prompt')">Cancelar</button>
         </div>
       </form>
@@ -1893,24 +1894,59 @@ const app = {
     if(!this.data.prompts)this.data.prompts=[];
     const lista=this.data.prompts.filter(p=>p.contexto===contexto);
     if(lista.length===0){el.innerHTML=`<div class="prompt-empty">Nenhum prompt ainda. Clique em "+ Novo Prompt"! 📋</div>`;return;}
-    el.innerHTML=lista.map(p=>`<div class="prompt-card ${contexto==='assessoria'?'douglas':'social'}"><div class="prompt-title">${p.titulo}</div><div class="prompt-preview">${p.conteudo}</div><div class="prompt-actions"><button class="btn-copy" onclick="app.copiarPrompt('${p.id}')">📋 Copiar Prompt</button><button class="btn-del-prompt" onclick="app.deletarPrompt('${p.id}','${contexto}','${elId}')">🗑️</button></div></div>`).join('');
+    const cls=contexto==='assessoria'?'douglas':'social';
+    el.innerHTML=lista.map(p=>`
+      <div class="prompt-card ${cls}" draggable="true" data-id="${p.id}" data-ctx="${contexto}" data-elid="${elId}"
+        ondragstart="app._promptDragStart(event)"
+        ondragover="app._promptDragOver(event)"
+        ondragleave="app._promptDragLeave(event)"
+        ondrop="app._promptDrop(event,'${contexto}','${elId}')">
+        <div class="prompt-title">☰ ${p.titulo}</div>
+        <div class="prompt-preview">${p.conteudo}</div>
+        <div class="prompt-actions">
+          <button class="btn-copy" onclick="app.copiarPrompt('${p.id}')">📋 Copiar</button>
+          <button class="btn-edit-prompt" onclick="app.editarPrompt('${p.id}','${contexto}','${elId}')">✏️ Editar</button>
+          <button class="btn-del-prompt" onclick="app.deletarPrompt('${p.id}','${contexto}','${elId}')">🗑️</button>
+        </div>
+      </div>`).join('');
   },
 
   abrirModalPrompt(contexto) {
     document.getElementById('prompt-contexto').value=contexto;
+    document.getElementById('prompt-edit-id').value='';
     document.getElementById('prompt-titulo').value='';
     document.getElementById('prompt-conteudo').value='';
+    document.getElementById('prompt-submit-btn').textContent='Salvar Prompt';
+    this.openModal('modal-prompt');
+  },
+
+  editarPrompt(id, contexto, elId) {
+    const p=this.data.prompts.find(p=>p.id===id); if(!p) return;
+    document.getElementById('prompt-contexto').value=contexto;
+    document.getElementById('prompt-edit-id').value=id;
+    document.getElementById('prompt-titulo').value=p.titulo;
+    document.getElementById('prompt-conteudo').value=p.conteudo;
+    document.getElementById('prompt-submit-btn').textContent='Atualizar Prompt';
     this.openModal('modal-prompt');
   },
 
   savePrompt(e) {
     e.preventDefault();
     const contexto=document.getElementById('prompt-contexto').value;
+    const editId=document.getElementById('prompt-edit-id').value;
+    const titulo=document.getElementById('prompt-titulo').value.trim();
+    const conteudo=document.getElementById('prompt-conteudo').value.trim();
     if(!this.data.prompts)this.data.prompts=[];
-    this.data.prompts.push({id:this.uid(),titulo:document.getElementById('prompt-titulo').value.trim(),conteudo:document.getElementById('prompt-conteudo').value.trim(),contexto,dataCriacao:this.formatDate(new Date())});
-    this.save();this.closeModal('modal-prompt');
     const elId=contexto==='assessoria'?'prompts-assessoria':'prompts-social-media';
-    this.renderPrompts(contexto,elId);this.toast('📋 Prompt salvo!');
+    if(editId){
+      const idx=this.data.prompts.findIndex(p=>p.id===editId);
+      if(idx>=0){this.data.prompts[idx].titulo=titulo;this.data.prompts[idx].conteudo=conteudo;}
+      this.toast('✅ Prompt atualizado!');
+    } else {
+      this.data.prompts.push({id:this.uid(),titulo,conteudo,contexto,dataCriacao:this.formatDate(new Date())});
+      this.toast('📋 Prompt salvo!');
+    }
+    this.save();this.closeModal('modal-prompt');this.renderPrompts(contexto,elId);
   },
 
   copiarPrompt(id) {
@@ -1918,6 +1954,24 @@ const app = {
     navigator.clipboard.writeText(p.conteudo).then(()=>this.toast('✅ Prompt copiado!')).catch(()=>{
       const ta=document.createElement('textarea');ta.value=p.conteudo;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);this.toast('✅ Prompt copiado!');
     });
+  },
+
+  _promptDragStart(e) { e.dataTransfer.setData('promptId',e.currentTarget.dataset.id); e.currentTarget.classList.add('dragging'); },
+  _promptDragOver(e) { e.preventDefault(); e.currentTarget.classList.add('drag-over'); },
+  _promptDragLeave(e) { e.currentTarget.classList.remove('drag-over'); },
+  _promptDrop(e,contexto,elId) {
+    e.preventDefault();
+    const fromId=e.dataTransfer.getData('promptId');
+    const toId=e.currentTarget.dataset.id;
+    if(!fromId||fromId===toId){e.currentTarget.classList.remove('drag-over');return;}
+    const lista=this.data.prompts;
+    const fromIdx=lista.findIndex(p=>p.id===fromId);
+    const toIdx=lista.findIndex(p=>p.id===toId);
+    if(fromIdx<0||toIdx<0)return;
+    const [moved]=lista.splice(fromIdx,1);
+    lista.splice(toIdx,0,moved);
+    this.data.prompts=lista;
+    this.save();this.renderPrompts(contexto,elId);
   },
 
   deletarPrompt(id,contexto,elId) {
