@@ -413,6 +413,16 @@
     .font-btn { background: var(--off-white); border: 1.5px solid var(--cinza); border-radius: 6px; cursor: pointer; font-size: 0.85rem; font-weight: 700; padding: 6px 12px; transition: all 0.2s; }
     .font-btn:hover { border-color: var(--agencia-cor); color: var(--agencia-cor); }
 
+    /* ── TELEPROMPTER · Editor inline ── */
+    .tp-editor { background: var(--branco); border-radius: var(--radius); padding: 16px; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 12px; }
+    .tp-editor-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    .tp-editor-row .script-selector { flex: 1; min-width: 180px; }
+    .tp-titulo-input { width: 100%; padding: 11px 14px; border: 1.5px solid var(--cinza); border-radius: 8px; font-family: inherit; font-size: 0.95rem; font-weight: 600; }
+    .tp-titulo-input:focus { border-color: var(--agencia-cor); outline: none; }
+    .tp-texto-input { width: 100%; min-height: 220px; padding: 14px 16px; border: 1.5px solid var(--cinza); border-radius: 8px; font-family: 'Georgia', serif; font-size: 1rem; line-height: 1.7; resize: vertical; }
+    .tp-texto-input:focus { border-color: var(--agencia-cor); outline: none; }
+    .tp-save-btn { padding: 13px 20px; font-size: 0.95rem; }
+
     /* ═══ RASCUNHO ═══ */
     .rascunho-capture { background: var(--preto); border-radius: var(--radius); padding: 20px; margin-bottom: 24px; box-shadow: 0 4px 24px rgba(0,0,0,0.18); border: 1.5px solid rgba(123,82,160,0.3); }
     .rascunho-capture textarea { width: 100%; background: transparent; border: none; outline: none; color: #fff; font-size: 1.15rem; font-family: 'Georgia', serif; line-height: 1.7; resize: none; min-height: 80px; }
@@ -549,6 +559,7 @@
     <button class="topnav-link" data-screen="ideias">💡 Ideias</button>
     <button class="topnav-link" data-screen="teleprompter">📖 Teleprompter</button>
     <div style="width:1px;background:rgba(255,255,255,0.15);height:24px;margin:0 6px;"></div>
+    <button class="topnav-link" data-screen="planejamento" style="color:rgba(186,152,220,0.85);">📋 Planejamento</button>
     <button class="topnav-link" data-screen="social-media" style="color:rgba(186,152,220,0.85);">📱 Social Media</button>
     <button class="topnav-link topnav-douglas" data-screen="assessoria">📋 Assessoria</button>
     <button class="topnav-link topnav-socios" data-screen="socios">🤝 Sócios</button>
@@ -566,6 +577,7 @@
     <button class="topnav-link" data-screen="ideias" onclick="app.goTo('ideias');app.closeMobileMenu()">💡 Ideias</button>
     <button class="topnav-link" data-screen="teleprompter" onclick="app.goTo('teleprompter');app.closeMobileMenu()">📖 Teleprompter</button>
     <div class="mobile-menu-divider"></div>
+    <button class="topnav-link" data-screen="planejamento" onclick="app.goTo('planejamento');app.closeMobileMenu()" style="color:rgba(186,152,220,0.85);">📋 Planejamento</button>
     <button class="topnav-link" data-screen="social-media" onclick="app.goTo('social-media');app.closeMobileMenu()" style="color:rgba(186,152,220,0.85);">📱 Social Media</button>
     <button class="topnav-link topnav-douglas" data-screen="assessoria" onclick="app.goTo('assessoria');app.closeMobileMenu()">📋 Assessoria</button>
     <button class="topnav-link topnav-socios" data-screen="socios" onclick="app.goTo('socios');app.closeMobileMenu()">🤝 Sócios</button>
@@ -691,18 +703,27 @@
 
     <!-- ══ TELEPROMPTER ══ -->
     <section id="teleprompter" class="screen" style="background:#F2EDE8;">
-      <div class="screen-header"><div><h1>📖 Teleprompter</h1><p>Roteiros individuais por sócio</p></div></div>
+      <div class="screen-header"><div><h1>📖 Teleprompter</h1><p>Cole o roteiro, dê um título e use na hora</p></div></div>
       <div class="tp-tabs">
         <button class="tp-tab active jenifer" onclick="app.switchTpTab('jenifer')">👤 Jenifer Giacomini</button>
         <button class="tp-tab douglas" onclick="app.switchTpTab('douglas')">👤 Douglas de Oliveira</button>
       </div>
+
       <div id="tp-jenifer" class="tp-panel active">
-        <div class="teleprompter-toolbar">
-          <select id="script-select-jenifer" class="script-selector" onchange="app.loadScript(this.value,'jenifer')"><option value="">Selecione um roteiro de Jenifer...</option></select>
-          <button class="btn-primary" style="background:var(--jenifer-cor);" onclick="app.openScriptModal('jenifer')">+ Novo Roteiro</button>
+        <div class="tp-editor">
+          <div class="tp-editor-row">
+            <select id="script-select-jenifer" class="script-selector" onchange="app.loadScript(this.value,'jenifer')">
+              <option value="">📂 Roteiros salvos de Jenifer...</option>
+            </select>
+            <button class="font-btn" style="white-space:nowrap;" onclick="app.novoRoteiro('jenifer')">＋ Limpar / Novo</button>
+            <button class="font-btn" style="white-space:nowrap;color:var(--vermelho);border-color:var(--vermelho);" onclick="app.apagarRoteiroAtual('jenifer')">🗑 Apagar</button>
+          </div>
+          <input type="text" id="tp-titulo-jenifer" class="tp-titulo-input" placeholder="Título do roteiro (ex: Reels sobre golpe do PIX)">
+          <textarea id="tp-texto-jenifer" class="tp-texto-input" placeholder="Cole ou digite o roteiro aqui..."></textarea>
+          <button class="btn-primary tp-save-btn" style="background:var(--jenifer-cor);" onclick="app.salvarEUsar('jenifer')">💾 Salvar e Iniciar ▶</button>
         </div>
-        <div id="tp-container-jenifer" class="teleprompter-wrapper"><div class="teleprompter-empty"><p>📖 Selecione um roteiro de Jenifer</p></div></div>
-        <div class="teleprompter-controls">
+        <div id="tp-container-jenifer" class="teleprompter-wrapper" style="display:none;"><div class="teleprompter-text" id="tp-text-jenifer"></div></div>
+        <div class="teleprompter-controls" id="tp-controls-jenifer" style="display:none;">
           <button id="play-pause-jenifer" class="control-btn" onclick="app.togglePlay('jenifer')">▶ Play</button>
           <div class="teleprompter-font-controls">
             <button class="font-btn" onclick="app.changeFontSize(-0.2,'jenifer')">A−</button>
@@ -711,15 +732,25 @@
           <input type="range" id="speed-slider-jenifer" min="0.5" max="4" step="0.1" value="1" class="speed-slider" oninput="app.updateSpeed(this.value,'jenifer')">
           <span id="speed-value-jenifer">1x</span>
           <button class="control-btn" onclick="app.toggleFullscreen('tp-container-jenifer')">⛶ Fullscreen</button>
+          <button class="control-btn" style="background:var(--cinza);color:var(--grafite-dk);" onclick="app.fecharTeleprompter('jenifer')">✏️ Editar</button>
         </div>
       </div>
+
       <div id="tp-douglas" class="tp-panel">
-        <div class="teleprompter-toolbar">
-          <select id="script-select-douglas" class="script-selector" onchange="app.loadScript(this.value,'douglas')"><option value="">Selecione um roteiro de Douglas...</option></select>
-          <button class="btn-primary" style="background:var(--douglas-cor);" onclick="app.openScriptModal('douglas')">+ Novo Roteiro</button>
+        <div class="tp-editor">
+          <div class="tp-editor-row">
+            <select id="script-select-douglas" class="script-selector" onchange="app.loadScript(this.value,'douglas')">
+              <option value="">📂 Roteiros salvos de Douglas...</option>
+            </select>
+            <button class="font-btn" style="white-space:nowrap;" onclick="app.novoRoteiro('douglas')">＋ Limpar / Novo</button>
+            <button class="font-btn" style="white-space:nowrap;color:var(--vermelho);border-color:var(--vermelho);" onclick="app.apagarRoteiroAtual('douglas')">🗑 Apagar</button>
+          </div>
+          <input type="text" id="tp-titulo-douglas" class="tp-titulo-input" placeholder="Título do roteiro (ex: Vídeo institucional Lex Aura)">
+          <textarea id="tp-texto-douglas" class="tp-texto-input" placeholder="Cole ou digite o roteiro aqui..."></textarea>
+          <button class="btn-primary tp-save-btn" style="background:var(--douglas-cor);" onclick="app.salvarEUsar('douglas')">💾 Salvar e Iniciar ▶</button>
         </div>
-        <div id="tp-container-douglas" class="teleprompter-wrapper"><div class="teleprompter-empty"><p>📖 Selecione um roteiro de Douglas</p></div></div>
-        <div class="teleprompter-controls">
+        <div id="tp-container-douglas" class="teleprompter-wrapper" style="display:none;"><div class="teleprompter-text" id="tp-text-douglas"></div></div>
+        <div class="teleprompter-controls" id="tp-controls-douglas" style="display:none;">
           <button id="play-pause-douglas" class="control-btn" onclick="app.togglePlay('douglas')">▶ Play</button>
           <div class="teleprompter-font-controls">
             <button class="font-btn" onclick="app.changeFontSize(-0.2,'douglas')">A−</button>
@@ -728,9 +759,11 @@
           <input type="range" id="speed-slider-douglas" min="0.5" max="4" step="0.1" value="1" class="speed-slider" oninput="app.updateSpeed(this.value,'douglas')">
           <span id="speed-value-douglas">1x</span>
           <button class="control-btn" onclick="app.toggleFullscreen('tp-container-douglas')">⛶ Fullscreen</button>
+          <button class="control-btn" style="background:var(--cinza);color:var(--grafite-dk);" onclick="app.fecharTeleprompter('douglas')">✏️ Editar</button>
         </div>
       </div>
     </section>
+
 
     <!-- ══ RASCUNHO ══ -->
     <section id="rascunho" class="screen" style="background:#F2EDE8;">
@@ -849,6 +882,1156 @@
       <div class="socios-board" id="sc-board"></div>
     </div>
   </section>
+
+<style>
+/* ══ DESIGN TOKENS ══ */
+.np-screen {
+  background: #FAF7F2;
+  min-height: 100vh;
+}
+.np-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+/* HEADER — Saudação personalizada */
+.np-greeting {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 18px 4px;
+  margin-bottom: 18px;
+  border-bottom: 1px solid rgba(139,94,60,0.15);
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.np-greeting-text h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.85rem;
+  color: #7B52A0;
+  margin: 0 0 2px 0;
+  font-weight: 600;
+}
+.np-greeting-text p {
+  font-size: 0.85rem;
+  color: #8B6F4E;
+  font-family: sans-serif;
+  margin: 0;
+  letter-spacing: 0.2px;
+}
+.np-period-tabs {
+  display: inline-flex;
+  background: white;
+  border-radius: 10px;
+  padding: 4px;
+  border: 1px solid rgba(139,94,60,0.2);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+.np-period-tab {
+  padding: 7px 18px;
+  border: none;
+  background: transparent;
+  color: #888;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 7px;
+  transition: all 0.2s;
+  letter-spacing: 0.3px;
+}
+.np-period-tab:hover { color: #7B52A0; }
+.np-period-tab.active {
+  background: #7B52A0;
+  color: #C4A96B;
+  box-shadow: 0 2px 6px rgba(59,20,13,0.25);
+}
+
+.np-panel { display: none; }
+.np-panel.active { display: block; animation: npFade 0.3s ease; }
+@keyframes npFade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ══════════════════════════════════════════════════════
+   HOJE — Tela inicial (foco no que importa AGORA)
+   ══════════════════════════════════════════════════════ */
+
+.np-today-grid {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+@media (max-width: 900px) {
+  .np-today-grid { grid-template-columns: 1fr; }
+}
+
+/* Card primário — Progresso do dia */
+.np-progress-card {
+  background: linear-gradient(135deg, #7B52A0 0%, #5e3a80 100%);
+  color: white;
+  border-radius: 16px;
+  padding: 22px 24px;
+  position: relative;
+  overflow: hidden;
+}
+.np-progress-card::before {
+  content: '';
+  position: absolute;
+  top: -50px;
+  right: -50px;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(199,153,56,0.18) 0%, transparent 70%);
+  pointer-events: none;
+}
+.np-progress-label {
+  font-family: sans-serif;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: rgba(242,196,69,0.85);
+  margin-bottom: 6px;
+}
+.np-progress-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 3.2rem;
+  font-weight: 700;
+  line-height: 1;
+  color: #C4A96B;
+  letter-spacing: -1px;
+}
+.np-progress-num small {
+  font-size: 1.4rem;
+  opacity: 0.7;
+  font-weight: 500;
+  margin-left: 4px;
+}
+.np-progress-text {
+  font-family: sans-serif;
+  font-size: 0.85rem;
+  margin-top: 8px;
+  margin-bottom: 14px;
+  color: rgba(255,255,255,0.85);
+}
+.np-progress-bar {
+  background: rgba(255,255,255,0.15);
+  border-radius: 100px;
+  height: 8px;
+  overflow: hidden;
+  position: relative;
+}
+.np-progress-fill {
+  background: linear-gradient(90deg, #C4A96B, #d4bd8a);
+  height: 100%;
+  border-radius: 100px;
+  transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Card de foco do dia */
+.np-focus-card {
+  background: white;
+  border-radius: 16px;
+  padding: 18px 20px;
+  border: 1px solid rgba(139,94,60,0.15);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.np-focus-label {
+  font-family: sans-serif;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #A0673A;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.np-focus-day {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #7B52A0;
+  margin-bottom: 8px;
+  letter-spacing: -0.3px;
+}
+.np-focus-desc {
+  font-family: sans-serif;
+  font-size: 0.85rem;
+  line-height: 1.55;
+  color: #5A3A20;
+}
+
+/* Alertas (urgências) */
+.np-alerts {
+  background: white;
+  border-radius: 14px;
+  border: 1px solid rgba(220,53,69,0.18);
+  margin-bottom: 16px;
+  overflow: hidden;
+}
+.np-alerts-header {
+  background: linear-gradient(90deg, rgba(220,53,69,0.08), transparent);
+  padding: 10px 16px;
+  font-family: sans-serif;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-weight: 700;
+  color: #c0392b;
+  border-bottom: 1px solid rgba(220,53,69,0.12);
+}
+.np-alert-item {
+  padding: 11px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: sans-serif;
+  font-size: 0.86rem;
+  color: #7B52A0;
+  border-bottom: 1px solid rgba(139,94,60,0.08);
+}
+.np-alert-item:last-child { border-bottom: none; }
+.np-alert-icon { font-size: 0.95rem; }
+.np-alert-text { flex: 1; }
+.np-alert-text strong { color: #c0392b; }
+.np-alert-action {
+  font-size: 0.72rem;
+  color: #A0673A;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Sections do HOJE */
+.np-section {
+  background: white;
+  border-radius: 14px;
+  margin-bottom: 14px;
+  border: 1px solid rgba(139,94,60,0.12);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+  overflow: hidden;
+}
+.np-section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 13px 18px 10px 18px;
+  border-bottom: 1px solid rgba(139,94,60,0.08);
+}
+.np-section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #7B52A0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.np-section-meta {
+  font-family: sans-serif;
+  font-size: 0.78rem;
+  color: #888;
+  letter-spacing: 0.3px;
+}
+.np-section-body { padding: 12px 18px 16px 18px; }
+
+/* Lista de tarefas */
+.np-task-list { display: flex; flex-direction: column; gap: 6px; }
+.np-task {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: sans-serif;
+  font-size: 0.88rem;
+  color: #7B52A0;
+  border: 1px solid transparent;
+}
+.np-task:hover { background: rgba(199,153,56,0.06); border-color: rgba(199,153,56,0.2); }
+.np-task.done {
+  opacity: 0.55;
+  text-decoration: line-through;
+  background: rgba(34,197,94,0.05);
+}
+.np-task-check {
+  width: 19px;
+  height: 19px;
+  border: 2px solid #A0673A;
+  border-radius: 5px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  transition: all 0.15s;
+}
+.np-task.done .np-task-check {
+  background: #22C55E;
+  border-color: #22C55E;
+  color: white;
+}
+.np-task-text { flex: 1; }
+.np-task-tag {
+  font-size: 0.72rem;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: #FAF7F2;
+  color: #A0673A;
+  font-weight: 600;
+}
+.np-task-time {
+  font-family: 'Courier New', monospace;
+  font-size: 0.78rem;
+  color: #888;
+}
+
+/* Stories grid */
+.np-stories-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+@media (max-width: 600px) {
+  .np-stories-grid { grid-template-columns: 1fr; }
+}
+.np-story-perfil {
+  background: #FAF7F2;
+  border-radius: 10px;
+  padding: 12px;
+  border: 1px solid rgba(139,94,60,0.1);
+}
+.np-story-perfil-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 9px;
+}
+.np-story-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: white;
+  font-family: 'Cormorant Garamond', serif;
+}
+.np-story-avatar.gs { background: #7B52A0; }
+.np-story-avatar.je { background: #C4A96B; }
+.np-story-avatar.el { background: #A0673A; }
+.np-story-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #7B52A0;
+  flex: 1;
+}
+.np-story-count {
+  font-size: 0.72rem;
+  color: #888;
+  font-family: sans-serif;
+}
+.np-story-slots {
+  display: flex;
+  gap: 6px;
+}
+.np-story-slot {
+  flex: 1;
+  height: 40px;
+  border: 2px dashed rgba(139,94,60,0.25);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-size: 0.75rem;
+  color: #A0673A;
+  font-family: sans-serif;
+  font-weight: 600;
+}
+.np-story-slot:hover { background: rgba(199,153,56,0.08); border-color: #A0673A; }
+.np-story-slot.done {
+  background: linear-gradient(135deg, #22C55E, #16A34A);
+  border-style: solid;
+  border-color: #16A34A;
+  color: white;
+}
+
+/* ══════════════════════════════════════════════════════
+   SEMANA — Calendário 7 dias horizontal
+   ══════════════════════════════════════════════════════ */
+
+.np-week-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+  padding: 10px 14px;
+  background: white;
+  border-radius: 12px;
+  border: 1px solid rgba(139,94,60,0.12);
+}
+.np-week-nav-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #7B52A0;
+}
+.np-week-nav-arrows {
+  display: flex;
+  gap: 4px;
+}
+.np-week-nav-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid rgba(139,94,60,0.2);
+  background: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #7B52A0;
+  transition: all 0.15s;
+  font-size: 0.95rem;
+}
+.np-week-nav-btn:hover { background: #FAF7F2; border-color: #A0673A; }
+.np-week-nav-today {
+  padding: 0 12px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid #A0673A;
+  background: white;
+  color: #A0673A;
+  font-family: sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: 0.3px;
+}
+.np-week-nav-today:hover { background: #A0673A; color: white; }
+
+.np-week-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+}
+@media (max-width: 900px) {
+  .np-week-grid { grid-template-columns: repeat(4, 1fr); }
+}
+@media (max-width: 600px) {
+  .np-week-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+.np-day-card {
+  background: white;
+  border-radius: 12px;
+  padding: 12px;
+  border: 1px solid rgba(139,94,60,0.12);
+  min-height: 220px;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+.np-day-card:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.06); border-color: #A0673A; }
+.np-day-card.today {
+  border-color: #A0673A;
+  background: linear-gradient(180deg, rgba(242,196,69,0.06) 0%, white 30%);
+}
+.np-day-card.today::before {
+  content: 'HOJE';
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: #A0673A;
+  letter-spacing: 1.5px;
+  font-family: sans-serif;
+}
+.np-day-card.weekend { background: #FAF7F2; }
+
+.np-day-header {
+  margin-bottom: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(139,94,60,0.1);
+}
+.np-day-name {
+  font-family: sans-serif;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #888;
+  font-weight: 700;
+}
+.np-day-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #7B52A0;
+  line-height: 1;
+  margin-top: 2px;
+}
+.np-day-focus {
+  font-family: sans-serif;
+  font-size: 0.7rem;
+  color: #A0673A;
+  font-weight: 600;
+  margin-top: 4px;
+  letter-spacing: 0.3px;
+}
+.np-day-posts { flex: 1; display: flex; flex-direction: column; gap: 5px; }
+.np-day-post {
+  background: #FAF7F2;
+  border-radius: 6px;
+  padding: 6px 8px;
+  font-size: 0.75rem;
+  color: #7B52A0;
+  border-left: 3px solid;
+  font-family: sans-serif;
+  line-height: 1.3;
+  cursor: pointer;
+}
+.np-day-post:hover { background: rgba(199,153,56,0.1); }
+.np-day-post.gs { border-color: #7B52A0; }
+.np-day-post.je { border-color: #C4A96B; }
+.np-day-post.el { border-color: #A0673A; }
+.np-day-post-title { font-weight: 600; font-size: 0.78rem; }
+.np-day-post-meta {
+  font-size: 0.68rem;
+  color: #888;
+  margin-top: 2px;
+  display: flex;
+  justify-content: space-between;
+}
+.np-day-post.published { opacity: 0.6; }
+.np-day-add {
+  font-size: 0.72rem;
+  color: #A0673A;
+  text-align: center;
+  padding: 6px;
+  border: 1px dashed rgba(139,94,60,0.2);
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: sans-serif;
+  font-weight: 600;
+  margin-top: 4px;
+}
+.np-day-add:hover { background: rgba(199,153,56,0.05); border-color: #A0673A; }
+
+/* ══════════════════════════════════════════════════════
+   MÊS — Visão estratégica
+   ══════════════════════════════════════════════════════ */
+
+.np-month-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+.np-month-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #7B52A0;
+  letter-spacing: -0.3px;
+}
+.np-month-actions { display: flex; gap: 8px; align-items: center; }
+.np-month-action-btn {
+  padding: 8px 14px;
+  background: white;
+  border: 1px solid rgba(139,94,60,0.2);
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #7B52A0;
+  transition: all 0.15s;
+}
+.np-month-action-btn:hover { background: #7B52A0; color: #C4A96B; border-color: #7B52A0; }
+.np-month-action-btn.primary {
+  background: #7B52A0;
+  color: #C4A96B;
+  border-color: #7B52A0;
+}
+
+.np-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.np-metric {
+  background: white;
+  border-radius: 14px;
+  padding: 16px 18px;
+  border: 1px solid rgba(139,94,60,0.12);
+  position: relative;
+  overflow: hidden;
+}
+.np-metric-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+.np-metric-label {
+  font-family: sans-serif;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #888;
+  font-weight: 700;
+}
+.np-metric-trend {
+  font-size: 0.7rem;
+  padding: 2px 7px;
+  border-radius: 5px;
+  font-weight: 700;
+  font-family: sans-serif;
+}
+.np-metric-trend.up { background: rgba(34,197,94,0.12); color: #16A34A; }
+.np-metric-trend.flat { background: rgba(139,94,60,0.1); color: #8B6F4E; }
+.np-metric-trend.down { background: rgba(220,53,69,0.12); color: #c0392b; }
+.np-metric-value {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #7B52A0;
+  line-height: 1;
+  letter-spacing: -0.5px;
+}
+.np-metric-value small {
+  font-size: 1.1rem;
+  color: #888;
+  font-weight: 500;
+}
+.np-metric-bar {
+  margin-top: 10px;
+  background: #FAF7F2;
+  border-radius: 100px;
+  height: 6px;
+  overflow: hidden;
+}
+.np-metric-fill {
+  background: linear-gradient(90deg, #A0673A, #C4A96B);
+  height: 100%;
+  border-radius: 100px;
+  transition: width 0.5s;
+}
+.np-metric-fill.success { background: linear-gradient(90deg, #16A34A, #22C55E); }
+.np-metric-fill.warning { background: linear-gradient(90deg, #F59E0B, #FBBF24); }
+.np-metric-fill.danger { background: linear-gradient(90deg, #DC2626, #EF4444); }
+.np-metric-foot {
+  margin-top: 8px;
+  font-size: 0.75rem;
+  color: #888;
+  font-family: sans-serif;
+}
+
+/* Marcos do mês */
+.np-milestones { display: flex; flex-direction: column; gap: 8px; }
+.np-milestone {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 14px;
+  background: white;
+  border-radius: 10px;
+  border: 1px solid rgba(139,94,60,0.12);
+  border-left: 4px solid;
+}
+.np-milestone.urgent { border-left-color: #DC2626; background: linear-gradient(90deg, rgba(220,38,38,0.04), white 50%); }
+.np-milestone.soon { border-left-color: #F59E0B; }
+.np-milestone.future { border-left-color: #A0673A; }
+.np-milestone.done { border-left-color: #16A34A; opacity: 0.7; }
+.np-milestone-icon {
+  font-size: 1.4rem;
+  width: 38px;
+  height: 38px;
+  background: #FAF7F2;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.np-milestone-info { flex: 1; }
+.np-milestone-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #7B52A0;
+}
+.np-milestone-meta {
+  font-family: sans-serif;
+  font-size: 0.78rem;
+  color: #888;
+  margin-top: 2px;
+}
+.np-milestone-when {
+  font-family: 'Courier New', monospace;
+  font-size: 0.85rem;
+  color: #A0673A;
+  font-weight: 700;
+}
+
+/* Distribuição (barras horizontais) */
+.np-distrib { display: flex; flex-direction: column; gap: 10px; }
+.np-distrib-row {
+  display: grid;
+  grid-template-columns: 140px 1fr 60px;
+  gap: 10px;
+  align-items: center;
+}
+.np-distrib-label {
+  font-family: sans-serif;
+  font-size: 0.85rem;
+  color: #7B52A0;
+}
+.np-distrib-bar {
+  background: #FAF7F2;
+  height: 22px;
+  border-radius: 8px;
+  position: relative;
+  overflow: hidden;
+}
+.np-distrib-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #7B52A0, #C4A96B);
+  border-radius: 8px;
+  transition: width 0.6s;
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+}
+.np-distrib-fill.target {
+  background: linear-gradient(90deg, #16A34A, #22C55E);
+}
+.np-distrib-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #7B52A0;
+  text-align: right;
+}
+
+/* Quick actions */
+.np-fab {
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #7B52A0, #5e3a80);
+  color: #C4A96B;
+  border: none;
+  cursor: pointer;
+  font-size: 1.5rem;
+  box-shadow: 0 6px 20px rgba(59,20,13,0.4);
+  z-index: 50;
+  transition: all 0.2s;
+}
+.np-fab:hover { transform: scale(1.05); box-shadow: 0 8px 24px rgba(59,20,13,0.5); }
+
+/* Modal de adicionar publicação */
+.np-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 16px;
+}
+.np-modal-overlay.open { display: flex; }
+.np-modal {
+  background: white;
+  border-radius: 16px;
+  max-width: 540px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 22px 24px;
+}
+.np-modal h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.4rem;
+  color: #7B52A0;
+  margin: 0 0 16px 0;
+}
+.np-modal-row { margin-bottom: 12px; }
+.np-modal-label {
+  display: block;
+  font-family: sans-serif;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #888;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+.np-modal-input,
+.np-modal-select,
+.np-modal-textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid rgba(139,94,60,0.2);
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 0.9rem;
+  background: #FAF7F2;
+  color: #7B52A0;
+}
+.np-modal-input:focus,
+.np-modal-select:focus,
+.np-modal-textarea:focus {
+  outline: none;
+  border-color: #A0673A;
+  background: white;
+}
+.np-modal-textarea { min-height: 80px; resize: vertical; }
+.np-modal-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.np-modal-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(139,94,60,0.12);
+}
+.np-btn {
+  padding: 9px 18px;
+  border-radius: 8px;
+  border: 1px solid rgba(139,94,60,0.2);
+  background: white;
+  cursor: pointer;
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 600;
+  font-size: 0.92rem;
+  color: #7B52A0;
+  transition: all 0.15s;
+}
+.np-btn:hover { background: #FAF7F2; }
+.np-btn.primary {
+  background: #7B52A0;
+  color: #C4A96B;
+  border-color: #7B52A0;
+}
+.np-btn.primary:hover { background: #5e3a80; }
+.np-btn.danger { color: #c0392b; border-color: rgba(220,38,38,0.3); }
+.np-btn.danger:hover { background: rgba(220,38,38,0.05); }
+</style>
+
+<!-- ════════════════════════════════════════════════════════════════ -->
+<section id="planejamento" class="screen np-screen">
+  <div class="np-container">
+
+    <!-- Header com saudação + tabs -->
+    <div class="np-greeting">
+      <div class="np-greeting-text">
+        <h1 id="np-saudacao">Bom dia</h1>
+        <p id="np-data-completa">—</p>
+      </div>
+      <div class="np-period-tabs">
+        <button class="np-period-tab active" data-np-tab="hoje" onclick="app.npTab('hoje')">Hoje</button>
+        <button class="np-period-tab" data-np-tab="semana" onclick="app.npTab('semana')">Semana</button>
+        <button class="np-period-tab" data-np-tab="mes" onclick="app.npTab('mes')">Mês</button>
+      </div>
+    </div>
+
+    <!-- ═══════════ HOJE ═══════════ -->
+    <div class="np-panel active" data-np-panel="hoje">
+
+      <!-- Top: progresso + foco -->
+      <div class="np-today-grid">
+        <div class="np-progress-card">
+          <div class="np-progress-label">Progresso de hoje</div>
+          <div class="np-progress-num" id="np-prog-num">0<small>%</small></div>
+          <div class="np-progress-text" id="np-prog-text">— de — tarefas concluídas</div>
+          <div class="np-progress-bar"><div class="np-progress-fill" id="np-prog-fill" style="width:0%"></div></div>
+        </div>
+
+        <div class="np-focus-card">
+          <div class="np-focus-label">Foco do dia</div>
+          <div class="np-focus-day" id="np-foco-titulo">—</div>
+          <div class="np-focus-desc" id="np-foco-desc">—</div>
+        </div>
+      </div>
+
+      <!-- Alertas (se houver) -->
+      <div class="np-alerts" id="np-alerts" style="display:none;">
+        <div class="np-alerts-header">⚠ Atenção · precisa de ação</div>
+        <div id="np-alerts-list"></div>
+      </div>
+
+      <!-- Tarefas de hoje -->
+      <div class="np-section">
+        <div class="np-section-head">
+          <div class="np-section-title">✅ Tarefas de hoje</div>
+          <div class="np-section-meta" id="np-tarefas-meta">— de —</div>
+        </div>
+        <div class="np-section-body">
+          <div class="np-task-list" id="np-tarefas-lista"></div>
+        </div>
+      </div>
+
+      <!-- Stories obrigatórios -->
+      <div class="np-section">
+        <div class="np-section-head">
+          <div class="np-section-title">📖 Stories de hoje</div>
+          <div class="np-section-meta">2 por perfil · mín. obrigatório</div>
+        </div>
+        <div class="np-section-body">
+          <div class="np-stories-grid" id="np-stories-grid"></div>
+        </div>
+      </div>
+
+      <!-- Publicações agendadas hoje -->
+      <div class="np-section">
+        <div class="np-section-head">
+          <div class="np-section-title">📅 Publicações de hoje</div>
+          <div class="np-section-meta" id="np-pubs-hoje-meta">0 publicação(ões)</div>
+        </div>
+        <div class="np-section-body" id="np-pubs-hoje-body">
+          <div style="text-align:center;color:#888;padding:14px;font-family:sans-serif;font-size:0.85rem;">
+            Sem publicações agendadas para hoje.
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ═══════════ SEMANA ═══════════ -->
+    <div class="np-panel" data-np-panel="semana">
+      <div class="np-week-nav">
+        <div class="np-week-nav-title" id="np-week-title">—</div>
+        <div class="np-week-nav-arrows">
+          <button class="np-week-nav-btn" onclick="app.npWeekNav(-1)">‹</button>
+          <button class="np-week-nav-today" onclick="app.npWeekNav(0)">Hoje</button>
+          <button class="np-week-nav-btn" onclick="app.npWeekNav(1)">›</button>
+        </div>
+      </div>
+
+      <div class="np-week-grid" id="np-week-grid"></div>
+
+      <!-- Resumo da semana -->
+      <div class="np-section" style="margin-top:16px;">
+        <div class="np-section-head">
+          <div class="np-section-title">📊 Resumo da semana</div>
+        </div>
+        <div class="np-section-body">
+          <div class="np-distrib" id="np-week-summary"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════ MÊS ═══════════ -->
+    <div class="np-panel" data-np-panel="mes">
+
+      <div class="np-month-nav">
+        <div class="np-month-title" id="np-month-title">—</div>
+        <div class="np-month-actions">
+          <button class="np-month-action-btn" onclick="app.npMonthNav(-1)">‹ Anterior</button>
+          <button class="np-month-action-btn" onclick="app.npMonthNav(0)">Atual</button>
+          <button class="np-month-action-btn" onclick="app.npMonthNav(1)">Próximo ›</button>
+        </div>
+      </div>
+
+      <!-- Métricas principais -->
+      <div class="np-metrics" id="np-metrics"></div>
+
+      <!-- Marcos do mês -->
+      <div class="np-section">
+        <div class="np-section-head">
+          <div class="np-section-title">📌 Marcos do mês</div>
+          <div class="np-section-meta">eventos críticos do ciclo</div>
+        </div>
+        <div class="np-section-body">
+          <div class="np-milestones" id="np-milestones"></div>
+        </div>
+      </div>
+
+      <!-- Distribuição por tipo -->
+      <div class="np-section">
+        <div class="np-section-head">
+          <div class="np-section-title">🎯 Distribuição de conteúdo</div>
+          <div class="np-section-meta">meta: educacional 40% · marca 30% · conversa 20% · institucional 10%</div>
+        </div>
+        <div class="np-section-body">
+          <div class="np-distrib" id="np-distrib"></div>
+        </div>
+      </div>
+
+      <!-- Distribuição por perfil -->
+      <div class="np-section">
+        <div class="np-section-head">
+          <div class="np-section-title">👥 Posts por perfil</div>
+          <div class="np-section-meta">meta: ~20 posts/mês cada</div>
+        </div>
+        <div class="np-section-body">
+          <div class="np-distrib" id="np-distrib-perfis"></div>
+        </div>
+      </div>
+
+      <!-- Artigos & Blog do mês -->
+      <div class="np-section">
+        <div class="np-section-head">
+          <div class="np-section-title">✍️ Artigos & Blog do mês</div>
+          <div class="np-section-meta">meta: 1 artigo/semana · 4 no mês · Blog → Jusbrasil → Jus Navigandi → +</div>
+        </div>
+        <div class="np-section-body">
+          <div id="np-artigos-lista"></div>
+          <button class="np-btn primary" style="margin-top:12px;" onclick="app.npNovoArtigo()">+ Novo artigo</button>
+        </div>
+      </div>
+
+      <!-- Acessos rápidos -->
+      <div class="np-section">
+        <div class="np-section-head">
+          <div class="np-section-title">⚡ Acessos rápidos</div>
+        </div>
+        <div class="np-section-body">
+          <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));gap:10px;">
+            <button class="np-month-action-btn" style="text-align:left;padding:12px 16px;" onclick="app.npAbrirCopysMes()">📝 Lote de copys do mês</button>
+            <button class="np-month-action-btn" style="text-align:left;padding:12px 16px;" onclick="app.npAbrirArtigos()">✍️ Artigos (1/semana)</button>
+            <button class="np-month-action-btn" style="text-align:left;padding:12px 16px;" onclick="app.npTab('semana')">📅 Ver calendário da semana</button>
+            <button class="np-month-action-btn" style="text-align:left;padding:12px 16px;" onclick="app.goTo('ideias')">💡 Banco de Ideias</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- FAB: nova publicação -->
+  <button class="np-fab" id="np-fab" onclick="app.npNovaPublicacao()" title="Nova publicação">+</button>
+
+  <!-- Modal: nova publicação -->
+  <div class="np-modal-overlay" id="np-modal-pub">
+    <div class="np-modal">
+      <h3 id="np-modal-titulo">Nova publicação</h3>
+      <div class="np-modal-row">
+        <label class="np-modal-label">Perfil</label>
+        <select class="np-modal-select" id="np-mp-perfil">
+          <option value="ag">✨ Lex Aura</option>
+          <option value="je">👤 Jenifer</option>
+          <option value="dg">👤 Douglas</option>
+        </select>
+      </div>
+      <div class="np-modal-row np-modal-row-2">
+        <div>
+          <label class="np-modal-label">Data</label>
+          <input type="date" class="np-modal-input" id="np-mp-data">
+        </div>
+        <div>
+          <label class="np-modal-label">Hora</label>
+          <input type="time" class="np-modal-input" id="np-mp-hora" value="09:00">
+        </div>
+      </div>
+      <div class="np-modal-row np-modal-row-2">
+        <div>
+          <label class="np-modal-label">Formato</label>
+          <select class="np-modal-select" id="np-mp-formato">
+            <option value="feed">📷 Feed</option>
+            <option value="carrossel">📑 Carrossel</option>
+            <option value="reels">🎬 Reels</option>
+          </select>
+        </div>
+        <div>
+          <label class="np-modal-label">Tipo</label>
+          <select class="np-modal-select" id="np-mp-tipo">
+            <option value="educacional">📚 Educacional</option>
+            <option value="marca">⭐ Marca</option>
+            <option value="conversacional">💬 Conversacional</option>
+            <option value="institucional">🏛️ Institucional</option>
+          </select>
+        </div>
+      </div>
+      <div class="np-modal-row">
+        <label class="np-modal-label">Tema / título</label>
+        <input type="text" class="np-modal-input" id="np-mp-titulo" placeholder="Ex: Cobrança abusiva — seus direitos">
+      </div>
+      <div class="np-modal-row">
+        <label class="np-modal-label">Copy / legenda</label>
+        <textarea class="np-modal-textarea" id="np-mp-copy" placeholder="Cole aqui a legenda completa..."></textarea>
+      </div>
+      <div class="np-modal-actions">
+        <button class="np-btn danger" id="np-mp-deletar" style="display:none;" onclick="app.npDeletarPub()">Deletar</button>
+        <button class="np-btn" onclick="app.npFechar()">Cancelar</button>
+        <button class="np-btn primary" onclick="app.npSalvarPub()">Salvar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: novo artigo / blog -->
+  <div class="np-modal-overlay" id="np-modal-art">
+    <div class="np-modal" style="max-width:640px;">
+      <h3 id="np-art-titulo-modal">Novo artigo</h3>
+
+      <div class="np-modal-row np-modal-row-2">
+        <div>
+          <label class="np-modal-label">Semana do mês</label>
+          <select class="np-modal-select" id="np-art-semana">
+            <option value="1">Semana 1</option>
+            <option value="2">Semana 2</option>
+            <option value="3">Semana 3</option>
+            <option value="4">Semana 4</option>
+          </select>
+        </div>
+        <div>
+          <label class="np-modal-label">Status</label>
+          <select class="np-modal-select" id="np-art-status">
+            <option value="rascunho">📝 Rascunho</option>
+            <option value="escrevendo">✍️ Escrevendo</option>
+            <option value="revisao">🔍 Revisão</option>
+            <option value="publicado">✅ Publicado</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="np-modal-row">
+        <label class="np-modal-label">Tema do artigo</label>
+        <input type="text" class="np-modal-input" id="np-art-tema" placeholder="Ex: Cobrança abusiva — quando o banco passa do limite">
+      </div>
+
+      <div class="np-modal-row">
+        <label class="np-modal-label">Resumo / pontos-chave</label>
+        <textarea class="np-modal-textarea" id="np-art-resumo" placeholder="Argumento central do artigo, fundamentação, pontos a abordar..."></textarea>
+      </div>
+
+      <div class="np-modal-row">
+        <label class="np-modal-label">🎨 Imagem IA (link ou descrição)</label>
+        <input type="text" class="np-modal-input" id="np-art-imagem" placeholder="Cole link da imagem gerada ou prompt usado">
+      </div>
+
+      <div class="np-modal-row">
+        <label class="np-modal-label">📋 Onde já foi publicado · marque conforme replica</label>
+        <div id="np-art-replics" style="display:grid;grid-template-columns:repeat(auto-fit, minmax(160px, 1fr));gap:8px;margin-top:6px;"></div>
+      </div>
+
+      <div class="np-modal-actions">
+        <button class="np-btn danger" id="np-art-deletar" style="display:none;" onclick="app.npDeletarArtigo()">Deletar</button>
+        <button class="np-btn" onclick="app.npFecharArtigo()">Cancelar</button>
+        <button class="np-btn primary" onclick="app.npSalvarArtigo()">Salvar</button>
+      </div>
+    </div>
+  </div>
+</section>
+
 
   </main>
   <!-- ══ MODAIS ══ -->
@@ -1007,25 +2190,6 @@
     </div>
   </div>
 
-  <!-- Modal Roteiro -->
-  <div id="modal-script" class="modal">
-    <div class="modal-content">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
-        <h2 id="modal-script-title">📝 Novo Roteiro</h2>
-        <button class="btn-small-close" onclick="app.closeModal('modal-script')">✕</button>
-      </div>
-      <form id="form-script" onsubmit="app.saveScript(event)">
-        <input type="hidden" id="script-socio">
-        <input type="text" id="script-titulo" placeholder="Título do roteiro" required>
-        <textarea id="script-conteudo" placeholder="Cole ou digite o roteiro aqui..." required style="min-height:150px;"></textarea>
-        <div class="modal-buttons">
-          <button type="submit" class="btn-primary" id="script-submit-btn">Salvar</button>
-          <button type="button" class="btn-secondary" onclick="app.closeModal('modal-script')">Cancelar</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
   <!-- Modal Tarefa -->
   <div id="modal-task" class="modal">
     <div class="modal-content">
@@ -1085,7 +2249,8 @@
 const app = {
   data: {
     ideas: [], tasks: {}, habits: [], dreams: [],
-    courses: [], scripts: [], prompts: [], rascunhos: []
+    courses: [], scripts: [], prompts: [], rascunhos: [],
+    copys: [], artigos: [], diarioStatus: {}, cicloMes: {}
   },
 
   API_URL: 'https://script.google.com/macros/s/AKfycbxyuNBcIjBISRVBUP0R4cG0xSwtvqmm50Xd9D1HvBeV_EZgoG01G71tWazhGj6l_Iqf/exec',
@@ -1099,6 +2264,23 @@ const app = {
     return fetch(finalUrl)
       .then(r => r.json())
       .catch(e => { throw new Error('Erro ao conectar: ' + e.message); });
+  },
+
+  // ── Salva uma seção via POST pelo Worker (sem limite de URL) ──
+  _saveSection(secao, dados) {
+    if (!this.API_URL) return Promise.resolve();
+    return fetch(this.WORKER_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        acao: 'saveSection',
+        key: this.API_KEY,
+        secao: secao,
+        dados: JSON.stringify(dados)
+      })
+    })
+    .then(r => r.json())
+    .catch(e => { throw new Error('Erro ao salvar: ' + e.message); });
   },
 
   currentDate: new Date(),
@@ -1169,10 +2351,16 @@ const app = {
   save() {
     this.saveLocal();
     if (this.API_URL) {
-      const saveUrl = this.API_URL + '?acao=saveAllData&key=' + encodeURIComponent(this.API_KEY) + '&data=' + encodeURIComponent(JSON.stringify(this.data));
-      this._api(saveUrl)
-      .then(d => { if (d && d.success) this._mostrarSincStatus('💾 Salvo!'); })
-      .catch(() => this._mostrarSincStatus('📴 Salvo localmente'));
+      this._saveSection('ideas',     this.data.ideas     || []);
+      this._saveSection('tasks',     this.data.tasks     || {});
+      this._saveSection('scripts',   this.data.scripts   || []);
+      this._saveSection('prompts',   this.data.prompts   || []);
+      this._saveSection('rascunhos', this.data.rascunhos || []);
+      this._saveSection('copys',     this.data.copys     || []);
+      this._saveSection('artigos',   this.data.artigos   || []);
+      this._saveSection('diarioStatus', this.data.diarioStatus || {});
+      this._saveSection('cicloMes',  this.data.cicloMes  || {});
+      this._mostrarSincStatus('💾 Salvo!');
     }
   },
 
@@ -1218,6 +2406,7 @@ const app = {
     if (screen === 'assessoria')   { this.renderAssessoria(); this.renderPrompts('assessoria','prompts-assessoria'); }
     if (screen === 'socios')       this.renderSocios();
     if (screen === 'rascunho')     this.renderRascunhos();
+    if (screen === 'planejamento') this.npInit();
   },
 
   toggleMobileMenu() { document.getElementById('mobile-menu')?.classList.toggle('open'); },
@@ -1651,34 +2840,128 @@ const app = {
     document.getElementById(`tp-${socio}`)?.classList.add('active');
   },
 
-  openScriptModal(socio) {
-    document.getElementById('script-socio').value = socio;
-    document.getElementById('modal-script-title').textContent = socio==='jenifer'?'📝 Novo Roteiro — Jenifer':'📝 Novo Roteiro — Douglas';
-    const btn = document.getElementById('script-submit-btn');
-    if (btn) btn.style.background = socio==='jenifer'?'var(--jenifer-cor)':'var(--douglas-cor)';
-    document.getElementById('script-titulo').value=''; document.getElementById('script-conteudo').value='';
-    this.openModal('modal-script');
-  },
+  // ID do roteiro atualmente carregado em cada aba (null = roteiro novo)
+  _tpRoteiroAtual: { jenifer: null, douglas: null },
 
   renderScriptSelectors() {
     ['jenifer','douglas'].forEach(socio => {
       const sel = document.getElementById(`script-select-${socio}`); if(!sel) return;
-      const scripts = this.data.scripts.filter(s=>s.socio===socio);
+      const scripts = (this.data.scripts||[]).filter(s=>s.socio===socio);
       const ideaScripts = this.data.ideas.filter(i=>i.frente===socio&&i.tipo==='roteiro'&&(i.status==='gravar'||i.status==='roteiro'))
-        .map(i=>({id:`idea_${i.id}`,titulo:`[Ideia] ${i.titulo}`,conteudo:i.descricao||i.titulo,socio}));
-      const all = [...scripts,...ideaScripts];
-      sel.innerHTML = `<option value="">Selecione um roteiro de ${socio==='jenifer'?'Jenifer':'Douglas'}...</option>`;
-      all.forEach(s=>{sel.innerHTML+=`<option value="${s.id}">${s.titulo}</option>`;});
+        .map(i=>({id:`idea_${i.id}`,titulo:`💡 ${i.titulo}`,conteudo:i.descricao||i.titulo,socio}));
+      const nome = socio==='jenifer'?'Jenifer':'Douglas';
+      let html = `<option value="">📂 Roteiros salvos de ${nome}...</option>`;
+      if (scripts.length) {
+        html += `<optgroup label="Salvos">`;
+        scripts.forEach(s=>{ html += `<option value="${s.id}">${s.titulo}</option>`; });
+        html += `</optgroup>`;
+      }
+      if (ideaScripts.length) {
+        html += `<optgroup label="Do Banco de Ideias">`;
+        ideaScripts.forEach(s=>{ html += `<option value="${s.id}">${s.titulo}</option>`; });
+        html += `</optgroup>`;
+      }
+      sel.innerHTML = html;
     });
   },
 
+  // Carrega roteiro selecionado no editor (não no modo rolagem)
   loadScript(id, socio) {
-    if (!id) { document.getElementById(`tp-container-${socio}`).innerHTML=`<div class="teleprompter-empty"><p>📖 Selecione um roteiro</p></div>`; return; }
-    let script;
-    if (id.startsWith('idea_')) { const idea=this.data.ideas.find(i=>i.id===id.replace('idea_','')); script=idea?{conteudo:idea.descricao||idea.titulo}:null; }
-    else { script=this.data.scripts.find(s=>s.id===id); }
-    if (!script) return;
-    document.getElementById(`tp-container-${socio}`).innerHTML=`<div class="teleprompter-text" id="tp-text-${socio}" style="font-size:${this.tpState[socio].fontSize}rem;">${script.conteudo}</div>`;
+    const tituloEl = document.getElementById(`tp-titulo-${socio}`);
+    const textoEl  = document.getElementById(`tp-texto-${socio}`);
+    if (!id) { this._tpRoteiroAtual[socio] = null; return; }
+
+    if (id.startsWith('idea_')) {
+      const idea = this.data.ideas.find(i=>i.id===id.replace('idea_',''));
+      if (!idea) return;
+      // Ideia vira um roteiro editável novo (não sobrescreve a ideia)
+      this._tpRoteiroAtual[socio] = null;
+      tituloEl.value = idea.titulo || '';
+      textoEl.value  = idea.descricao || idea.titulo || '';
+    } else {
+      const script = (this.data.scripts||[]).find(s=>s.id===id);
+      if (!script) return;
+      this._tpRoteiroAtual[socio] = script.id;
+      tituloEl.value = script.titulo || '';
+      textoEl.value  = script.conteudo || '';
+    }
+    this.fecharTeleprompter(socio); // garante que está em modo edição
+  },
+
+  // Limpa o editor para um roteiro novo
+  novoRoteiro(socio) {
+    this._tpRoteiroAtual[socio] = null;
+    document.getElementById(`tp-titulo-${socio}`).value = '';
+    document.getElementById(`tp-texto-${socio}`).value  = '';
+    const sel = document.getElementById(`script-select-${socio}`);
+    if (sel) sel.value = '';
+    this.fecharTeleprompter(socio);
+  },
+
+  // Salva (atualiza ou cria) e entra no modo rolagem
+  salvarEUsar(socio) {
+    const titulo = document.getElementById(`tp-titulo-${socio}`).value.trim();
+    const texto  = document.getElementById(`tp-texto-${socio}`).value.trim();
+    if (!titulo) { this.toast('✏️ Dê um título ao roteiro'); return; }
+    if (!texto)  { this.toast('✏️ Cole o texto do roteiro'); return; }
+
+    if (!this.data.scripts) this.data.scripts = [];
+    const atualId = this._tpRoteiroAtual[socio];
+
+    if (atualId) {
+      // Atualiza o mesmo roteiro
+      const s = this.data.scripts.find(x=>x.id===atualId);
+      if (s) { s.titulo = titulo; s.conteudo = texto; }
+      this.toast('💾 Roteiro atualizado!');
+    } else {
+      // Cria novo
+      const novo = { id:this.uid(), titulo, conteudo:texto, socio };
+      this.data.scripts.push(novo);
+      this._tpRoteiroAtual[socio] = novo.id;
+      this.toast('💾 Roteiro salvo!');
+    }
+    this.save();
+    this.renderScriptSelectors();
+    document.getElementById(`script-select-${socio}`).value = this._tpRoteiroAtual[socio];
+
+    // Entra no modo teleprompter
+    this.iniciarTeleprompter(socio, texto);
+  },
+
+  iniciarTeleprompter(socio, texto) {
+    document.querySelector(`#tp-${socio} .tp-editor`).style.display = 'none';
+    const wrap = document.getElementById(`tp-container-${socio}`);
+    const ctrl = document.getElementById(`tp-controls-${socio}`);
+    wrap.style.display = 'flex';
+    ctrl.style.display = 'flex';
+    wrap.scrollTop = 0;
+    const txtEl = document.getElementById(`tp-text-${socio}`);
+    txtEl.textContent = texto;
+    txtEl.style.fontSize = `${this.tpState[socio].fontSize}rem`;
+  },
+
+  fecharTeleprompter(socio) {
+    const st = this.tpState[socio];
+    if (st.playing) { st.playing=false; clearInterval(st.interval); }
+    const btn = document.getElementById(`play-pause-${socio}`);
+    if (btn) btn.textContent = '▶ Play';
+    const editor = document.querySelector(`#tp-${socio} .tp-editor`);
+    if (editor) editor.style.display = 'flex';
+    const wrap = document.getElementById(`tp-container-${socio}`);
+    const ctrl = document.getElementById(`tp-controls-${socio}`);
+    if (wrap) wrap.style.display = 'none';
+    if (ctrl) ctrl.style.display = 'none';
+  },
+
+  apagarRoteiroAtual(socio) {
+    const id = this._tpRoteiroAtual[socio];
+    if (!id) { this.toast('Nada salvo para apagar'); return; }
+    if (!confirm('Apagar este roteiro salvo?')) return;
+    this.data.scripts = (this.data.scripts||[]).filter(s=>s.id!==id);
+    this.save();
+    this.novoRoteiro(socio);
+    this.renderScriptSelectors();
+    this.toast('🗑️ Roteiro apagado');
   },
 
   togglePlay(socio) {
@@ -1691,14 +2974,6 @@ const app = {
   updateSpeed(v,socio) { this.tpState[socio].speed=parseFloat(v);document.getElementById(`speed-value-${socio}`).textContent=`${parseFloat(v).toFixed(1)}x`; },
   changeFontSize(delta,socio) { const st=this.tpState[socio];st.fontSize=Math.max(0.8,Math.min(4,st.fontSize+delta));const el=document.getElementById(`tp-text-${socio}`);if(el)el.style.fontSize=`${st.fontSize}rem`; },
   toggleFullscreen(cid) { const el=document.getElementById(cid);if(!document.fullscreenElement)el.requestFullscreen().catch(()=>{});else document.exitFullscreen(); },
-
-  saveScript(e) {
-    e.preventDefault();
-    const socio = document.getElementById('script-socio').value;
-    this.data.scripts.push({ id:this.uid(), titulo:document.getElementById('script-titulo').value.trim(), conteudo:document.getElementById('script-conteudo').value.trim(), socio });
-    this.save(); this.closeModal('modal-script'); document.getElementById('form-script').reset();
-    this.renderScriptSelectors(); this.toast(`📝 Roteiro salvo para ${socio==='jenifer'?'Jenifer':'Douglas'}!`);
-  },
 
   /* ── SOCIAL MEDIA ── */
   renderSocialMedia() {
@@ -1979,6 +3254,858 @@ const app = {
     this.data.prompts=this.data.prompts.filter(p=>p.id!==id);
     this.save();this.renderPrompts(contexto,elId);
   },
+
+    /* ══════════ PLANEJAMENTO PROFISSIONAL ══════════ */
+
+    npState: {
+      tab: 'hoje',
+      semanaOffset: 0,  // 0 = atual, -1 = anterior, +1 = próxima
+      mesOffset: 0,
+      pubEditando: null
+    },
+
+    npFocoSemana: {
+      0: { dia: 'Domingo', titulo: 'Stories de dicas', desc: 'Stories rápidos em todos os perfis · pensar pauta da semana' },
+      1: { dia: 'Segunda', titulo: 'Estrutura', desc: 'Avaliar semana passada · pensar temas · anotar ideias · publicar' },
+      2: { dia: 'Terça', titulo: 'Roteiros & aprovação', desc: 'Criar roteiros para reels com as doutoras · enviar para aprovação' },
+      3: { dia: 'Quarta', titulo: 'Produção & tendências', desc: 'Editar vídeos · testar tendências · posts mais leves' },
+      4: { dia: 'Quinta', titulo: 'Conteúdo informativo', desc: 'Posts educativos · agendar semana seguinte · ensinar' },
+      5: { dia: 'Sexta', titulo: 'Conexão & análise', desc: 'Bastidores · revisar o que funcionou · responder comentários' },
+      6: { dia: 'Sábado', titulo: 'Recuperação', desc: 'Stories leves · planejamento pessoal' }
+    },
+
+    npPerfis: [
+      { id:'ag', nome:'Lex Aura', curto:'LA', cor:'#7B52A0' },
+      { id:'je', nome:'Jenifer', curto:'JE', cor:'#C4A96B' },
+      { id:'dg', nome:'Douglas', curto:'DG', cor:'#4A90D9' }
+    ],
+
+    npInit() {
+      // Inicializar dados
+      if (!this.data.copys) this.data.copys = [];
+      if (!this.data.diarioStatus) this.data.diarioStatus = {};
+
+      this.npRender();
+    },
+
+    npRender() {
+      this.npRenderHeader();
+      this.npRenderHoje();
+      this.npRenderSemana();
+      this.npRenderMes();
+    },
+
+    npTab(tab) {
+      this.npState.tab = tab;
+      document.querySelectorAll('[data-np-tab]').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('[data-np-panel]').forEach(el => el.classList.remove('active'));
+      document.querySelector(`[data-np-tab="${tab}"]`)?.classList.add('active');
+      document.querySelector(`[data-np-panel="${tab}"]`)?.classList.add('active');
+    },
+
+    /* ─── Header ─── */
+    npRenderHeader() {
+      const hoje = new Date();
+      const hora = hoje.getHours();
+      let saud = 'Bom dia';
+      if (hora >= 12 && hora < 18) saud = 'Boa tarde';
+      else if (hora >= 18) saud = 'Boa noite';
+
+      const sd = document.getElementById('np-saudacao');
+      if (sd) sd.textContent = saud + ', equipe Lex Aura';
+
+      const dias = ['Domingo','Segunda-feira','Terça-feira','Quarta-feira','Quinta-feira','Sexta-feira','Sábado'];
+      const meses = ['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
+      const dc = document.getElementById('np-data-completa');
+      if (dc) dc.textContent = `${dias[hoje.getDay()]}, ${hoje.getDate()} de ${meses[hoje.getMonth()]} de ${hoje.getFullYear()}`;
+    },
+
+    /* ─── HOJE ─── */
+    npRenderHoje() {
+      const hoje = new Date();
+      const chaveHoje = this.npChaveData(hoje);
+      const status = this.data.diarioStatus[chaveHoje] || {};
+
+      // Foco do dia
+      const foco = this.npFocoSemana[hoje.getDay()];
+      const ft = document.getElementById('np-foco-titulo');
+      const fd = document.getElementById('np-foco-desc');
+      if (ft) ft.textContent = foco.titulo;
+      if (fd) fd.textContent = foco.desc;
+
+      // Tarefas (depende do dia da semana — operacional + foco do dia)
+      const tarefasBase = [
+        { id:'comentarios', label:'Verificar e responder comentários nos 3 perfis', icon:'💬' },
+        { id:'editar-videos', label:'Editar vídeos pendentes (CapCut + Captions)', icon:'🎬' },
+        { id:'menc', label:'Verificar @ menções e repostar', icon:'🔄' }
+      ];
+
+      // Tarefas extras por dia
+      const tarefasDia = [];
+      const ds = hoje.getDay();
+      if (ds === 1) {
+        tarefasDia.push({ id:'banco-ideias', label:'Revisar banco de ideias e selecionar pautas', icon:'💡' });
+        tarefasDia.push({ id:'avaliar-passada', label:'Avaliar performance da semana passada', icon:'📊' });
+      }
+      if (ds === 2) {
+        tarefasDia.push({ id:'roteiros', label:'Criar roteiros para reels das sócias', icon:'📝' });
+        tarefasDia.push({ id:'enviar-aprov', label:'Enviar copies via Bitrix para aprovação', icon:'✅' });
+      }
+      if (ds === 3) {
+        tarefasDia.push({ id:'edicao-cap', label:'Editar vídeos no CapCut + CAPTIONS', icon:'🎬' });
+      }
+      if (ds === 4) {
+        tarefasDia.push({ id:'agendar', label:'Agendar posts da semana seguinte', icon:'📅' });
+      }
+      if (ds === 5) {
+        tarefasDia.push({ id:'relatorio-semana', label:'Fechar relatório leve da semana', icon:'📈' });
+        tarefasDia.push({ id:'levantar-pautas', label:'Levantar ideias para próxima reunião', icon:'💡' });
+      }
+
+      const tarefas = [...tarefasBase, ...tarefasDia];
+
+      // Render tarefas
+      const lista = document.getElementById('np-tarefas-lista');
+      if (lista) {
+        lista.innerHTML = tarefas.map(t => `
+          <div class="np-task ${status[t.id]?'done':''}" onclick="app.npToggleTask('${t.id}')">
+            <div class="np-task-check">${status[t.id]?'✓':''}</div>
+            <span class="np-task-text">${t.icon} ${t.label}</span>
+          </div>
+        `).join('');
+      }
+
+      // Calcular progresso
+      const stories = ['st-ag-1','st-ag-2','st-je-1','st-je-2','st-dg-1','st-dg-2'];
+      const todosIds = [...tarefas.map(t=>t.id), ...stories];
+      const feitos = todosIds.filter(id => status[id]).length;
+      const total = todosIds.length;
+      const pct = total ? Math.round(feitos/total*100) : 0;
+
+      const setText = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+      setText('np-prog-num', pct);
+      const numEl = document.getElementById('np-prog-num');
+      if (numEl) numEl.innerHTML = pct + '<small>%</small>';
+      setText('np-prog-text', `${feitos} de ${total} tarefas concluídas`);
+      const fill = document.getElementById('np-prog-fill');
+      if (fill) fill.style.width = pct + '%';
+      setText('np-tarefas-meta', `${tarefas.filter(t=>status[t.id]).length} de ${tarefas.length}`);
+
+      // Stories
+      const sg = document.getElementById('np-stories-grid');
+      if (sg) {
+        sg.innerHTML = this.npPerfis.map(p => {
+          const k1 = `st-${p.id}-1`, k2 = `st-${p.id}-2`;
+          const c = (status[k1]?1:0) + (status[k2]?1:0);
+          return `
+          <div class="np-story-perfil">
+            <div class="np-story-perfil-head">
+              <div class="np-story-avatar ${p.id}">${p.curto}</div>
+              <div class="np-story-name">${p.nome}</div>
+              <div class="np-story-count">${c}/2</div>
+            </div>
+            <div class="np-story-slots">
+              <div class="np-story-slot ${status[k1]?'done':''}" onclick="app.npToggleTask('${k1}')">${status[k1]?'✓':'+ Story 1'}</div>
+              <div class="np-story-slot ${status[k2]?'done':''}" onclick="app.npToggleTask('${k2}')">${status[k2]?'✓':'+ Story 2'}</div>
+            </div>
+          </div>`;
+        }).join('');
+      }
+
+      // Publicações de hoje
+      const pubsHoje = (this.data.copys || []).filter(c => c.dataPublicacao === chaveHoje);
+      const ph = document.getElementById('np-pubs-hoje-body');
+      const phm = document.getElementById('np-pubs-hoje-meta');
+      if (phm) phm.textContent = `${pubsHoje.length} publicação${pubsHoje.length===1?'':'ões'}`;
+      if (ph) {
+        if (pubsHoje.length === 0) {
+          ph.innerHTML = `<div style="text-align:center;color:#888;padding:14px;font-family:sans-serif;font-size:0.85rem;">Sem publicações agendadas para hoje.</div>`;
+        } else {
+          pubsHoje.sort((a,b) => (a.horario||'').localeCompare(b.horario||''));
+          ph.innerHTML = pubsHoje.map(p => {
+            const perfil = this.npPerfis.find(x=>x.id===p.perfil);
+            const pubKey = 'pub-'+p.id;
+            const done = status[pubKey];
+            return `
+            <div class="np-task ${done?'done':''}" onclick="app.npToggleTask('${pubKey}')">
+              <div class="np-task-check">${done?'✓':''}</div>
+              <span class="np-task-text">${p.titulo || '(sem título)'}</span>
+              <span class="np-task-tag" style="background:${perfil.cor};color:#F2C445;">${perfil.curto}</span>
+              <span class="np-task-time">${p.horario || '--:--'}</span>
+            </div>`;
+          }).join('');
+        }
+      }
+
+      // Alertas
+      this.npRenderAlertas();
+    },
+
+    npToggleTask(id) {
+      const chave = this.npChaveData(new Date());
+      if (!this.data.diarioStatus[chave]) this.data.diarioStatus[chave] = {};
+      this.data.diarioStatus[chave][id] = !this.data.diarioStatus[chave][id];
+      this.save();
+      this.npRenderHoje();
+    },
+
+    npRenderAlertas() {
+      const alertas = [];
+      const hoje = new Date();
+      const chaveHoje = this.npChaveData(hoje);
+
+      // 1. Posts agendados pra hoje sem copy
+      const pubsHoje = (this.data.copys || []).filter(c => c.dataPublicacao === chaveHoje);
+      const semCopy = pubsHoje.filter(p => !p.texto || p.texto.trim() === '');
+      if (semCopy.length > 0) {
+        alertas.push({ icon:'⚠', text:`<strong>${semCopy.length}</strong> publicação(ões) de hoje sem copy escrita`, tipo:'urgent' });
+      }
+
+      // 2. Tarde de copys próxima (última semana do mês)
+      const ultDiaMes = new Date(hoje.getFullYear(), hoje.getMonth()+1, 0).getDate();
+      const diasRestantes = ultDiaMes - hoje.getDate();
+      if (diasRestantes <= 7 && diasRestantes >= 0) {
+        alertas.push({ icon:'📝', text:`<strong>Tarde de copys</strong> em ${diasRestantes} dia(s) — preparar copys do próximo mês`, tipo:'soon' });
+      }
+
+      // 3. Stories abaixo do mínimo após meio-dia
+      const status = this.data.diarioStatus[chaveHoje] || {};
+      if (hoje.getHours() >= 14) {
+        const semStories = this.npPerfis.filter(p => !status[`st-${p.id}-1`] && !status[`st-${p.id}-2`]);
+        if (semStories.length > 0) {
+          alertas.push({ icon:'📖', text:`<strong>${semStories.length} perfil(is)</strong> sem stories ainda hoje: ${semStories.map(p=>p.curto).join(', ')}`, tipo:'soon' });
+        }
+      }
+
+      const box = document.getElementById('np-alerts');
+      const list = document.getElementById('np-alerts-list');
+      if (!box || !list) return;
+
+      if (alertas.length === 0) {
+        box.style.display = 'none';
+      } else {
+        box.style.display = 'block';
+        list.innerHTML = alertas.map(a => `
+          <div class="np-alert-item">
+            <span class="np-alert-icon">${a.icon}</span>
+            <span class="np-alert-text">${a.text}</span>
+          </div>
+        `).join('');
+      }
+    },
+
+    /* ─── SEMANA ─── */
+    npWeekNav(delta) {
+      if (delta === 0) this.npState.semanaOffset = 0;
+      else this.npState.semanaOffset += delta;
+      this.npRenderSemana();
+    },
+
+    npRenderSemana() {
+      const hoje = new Date();
+      const inicioSemana = new Date(hoje);
+      inicioSemana.setDate(hoje.getDate() - hoje.getDay() + (this.npState.semanaOffset * 7));
+
+      const fimSemana = new Date(inicioSemana);
+      fimSemana.setDate(inicioSemana.getDate() + 6);
+
+      const meses = ['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+      const tit = `${inicioSemana.getDate()} ${meses[inicioSemana.getMonth()]} — ${fimSemana.getDate()} ${meses[fimSemana.getMonth()]}`;
+      const titEl = document.getElementById('np-week-title');
+      if (titEl) titEl.textContent = tit;
+
+      const grid = document.getElementById('np-week-grid');
+      if (!grid) return;
+
+      const diasNomes = ['DOM','SEG','TER','QUA','QUI','SEX','SAB'];
+      const chaveHoje = this.npChaveData(hoje);
+
+      let html = '';
+      for (let i = 0; i < 7; i++) {
+        const dia = new Date(inicioSemana);
+        dia.setDate(inicioSemana.getDate() + i);
+        const chave = this.npChaveData(dia);
+        const ehHoje = chave === chaveHoje;
+        const ehWeekend = dia.getDay() === 0 || dia.getDay() === 6;
+
+        const pubs = (this.data.copys || []).filter(c => c.dataPublicacao === chave);
+        pubs.sort((a,b) => (a.horario||'').localeCompare(b.horario||''));
+
+        const foco = this.npFocoSemana[dia.getDay()];
+
+        let cls = 'np-day-card';
+        if (ehHoje) cls += ' today';
+        if (ehWeekend) cls += ' weekend';
+
+        html += `<div class="${cls}">
+          <div class="np-day-header">
+            <div class="np-day-name">${diasNomes[dia.getDay()]}</div>
+            <div class="np-day-num">${dia.getDate()}</div>
+            <div class="np-day-focus">${foco.titulo}</div>
+          </div>
+          <div class="np-day-posts">`;
+
+        if (pubs.length === 0) {
+          html += `<div style="color:#aaa;font-size:0.72rem;text-align:center;padding:14px 0;font-family:sans-serif;font-style:italic;">Sem posts</div>`;
+        } else {
+          pubs.forEach(p => {
+            const perfil = this.npPerfis.find(x=>x.id===p.perfil);
+            const fmt = {feed:'📷', carrossel:'📑', reels:'🎬'}[p.formato] || '📷';
+            html += `<div class="np-day-post ${p.perfil}" onclick="app.npEditarPub('${p.id}')">
+              <div class="np-day-post-title">${fmt} ${(p.titulo||'(sem título)').substring(0,40)}${(p.titulo||'').length>40?'…':''}</div>
+              <div class="np-day-post-meta">
+                <span>${perfil.curto}</span>
+                <span>${p.horario || ''}</span>
+              </div>
+            </div>`;
+          });
+        }
+        html += `<div class="np-day-add" onclick="app.npNovaPublicacao('${chave}')">+ Adicionar</div>`;
+        html += `</div></div>`;
+      }
+      grid.innerHTML = html;
+
+      // Resumo da semana
+      const resumo = document.getElementById('np-week-summary');
+      if (resumo) {
+        const pubsSemana = (this.data.copys || []).filter(c => {
+          if (!c.dataPublicacao) return false;
+          return c.dataPublicacao >= this.npChaveData(inicioSemana) && c.dataPublicacao <= this.npChaveData(fimSemana);
+        });
+
+        const linhas = this.npPerfis.map(p => {
+          const n = pubsSemana.filter(x => x.perfil === p.id).length;
+          const meta = 5;
+          const pct = Math.min(100, (n/meta)*100);
+          const tipo = n >= meta ? 'target' : '';
+          return `<div class="np-distrib-row">
+            <div class="np-distrib-label">${p.nome}</div>
+            <div class="np-distrib-bar"><div class="np-distrib-fill ${tipo}" style="width:${pct}%"></div></div>
+            <div class="np-distrib-num">${n}/${meta}</div>
+          </div>`;
+        }).join('');
+        resumo.innerHTML = linhas;
+      }
+    },
+
+    /* ─── MÊS ─── */
+    npMonthNav(delta) {
+      if (delta === 0) this.npState.mesOffset = 0;
+      else this.npState.mesOffset += delta;
+      this.npRenderMes();
+    },
+
+    npRenderMes() {
+      const hoje = new Date();
+      const baseMes = new Date(hoje.getFullYear(), hoje.getMonth() + this.npState.mesOffset, 1);
+      const mesIdx = baseMes.getMonth();
+      const ano = baseMes.getFullYear();
+      const meses = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+
+      const titEl = document.getElementById('np-month-title');
+      if (titEl) titEl.textContent = `${meses[mesIdx]} ${ano}`;
+
+      const chaveMes = `${ano}-${String(mesIdx+1).padStart(2,'0')}`;
+
+      const pubsMes = (this.data.copys || []).filter(c => (c.dataPublicacao||'').startsWith(chaveMes));
+
+      // Métricas
+      const metricsEl = document.getElementById('np-metrics');
+      if (metricsEl) {
+        const totalPosts = pubsMes.filter(p => p.formato !== 'story').length;
+        const metaPosts = 60; // 20 por perfil
+        const pctPosts = Math.min(100, (totalPosts/metaPosts)*100);
+
+        const reels = pubsMes.filter(p => p.formato === 'reels').length;
+        const metaReels = 36; // 12 por perfil
+        const pctReels = Math.min(100, (reels/metaReels)*100);
+
+        // Stories — contar do diarioStatus
+        let stories = 0;
+        Object.keys(this.data.diarioStatus || {}).forEach(k => {
+          if (k.startsWith(chaveMes)) {
+            const s = this.data.diarioStatus[k];
+            ['st-ag-1','st-ag-2','st-je-1','st-je-2','st-dg-1','st-dg-2'].forEach(sk => {
+              if (s[sk]) stories++;
+            });
+          }
+        });
+        const diasMes = new Date(ano, mesIdx+1, 0).getDate();
+        const metaStories = diasMes * 6;
+        const pctStories = Math.min(100, (stories/metaStories)*100);
+
+        // Artigos (semanas × 4)
+        // Artigos publicados no mês (de data.artigos)
+        const artigosFeitos = (this.data.artigos || []).filter(a => a.mes === chaveMes && a.status === 'publicado').length;
+        const artigosTotal = (this.data.artigos || []).filter(a => a.mes === chaveMes).length;
+        const metaArt = 4;
+        const pctArt = Math.min(100, (artigosFeitos/metaArt)*100);
+
+        const renderMetric = (label, valor, meta, pct, classe) => {
+          let trendClass = 'flat', trendText = '—';
+          if (pct >= 90) { trendClass = 'up'; trendText = '✓ Em dia'; }
+          else if (pct >= 60) { trendClass = 'flat'; trendText = 'No ritmo'; }
+          else { trendClass = 'down'; trendText = 'Atrasado'; }
+
+          let fillClass = '';
+          if (pct >= 90) fillClass = 'success';
+          else if (pct < 50) fillClass = 'danger';
+          else if (pct < 75) fillClass = 'warning';
+
+          return `<div class="np-metric">
+            <div class="np-metric-head">
+              <div class="np-metric-label">${label}</div>
+              <div class="np-metric-trend ${trendClass}">${trendText}</div>
+            </div>
+            <div class="np-metric-value">${valor}<small> / ${meta}</small></div>
+            <div class="np-metric-bar"><div class="np-metric-fill ${fillClass}" style="width:${pct}%"></div></div>
+            <div class="np-metric-foot">${Math.round(pct)}% da meta · ${meta - valor > 0 ? `faltam ${meta - valor}` : 'meta atingida'}</div>
+          </div>`;
+        };
+
+        metricsEl.innerHTML =
+          renderMetric('📱 Posts no feed', totalPosts, metaPosts, pctPosts) +
+          renderMetric('📖 Stories', stories, metaStories, pctStories) +
+          renderMetric('🎬 Reels', reels, metaReels, pctReels) +
+          renderMetric('✍️ Artigos', artigosFeitos, metaArt, pctArt);
+      }
+
+      // Marcos
+      const milesEl = document.getElementById('np-milestones');
+      if (milesEl) {
+        const milestones = [];
+
+        // Tarde de copys = última segunda do mês (próximo)
+        const ultSegProxMes = this.npUltimaSegunda(ano, mesIdx);
+        if (ultSegProxMes) {
+          const dt = new Date(ano, mesIdx, ultSegProxMes);
+          const dias = Math.ceil((dt - hoje) / (1000*60*60*24));
+          let tipo = 'future';
+          if (dias < 0) tipo = 'done';
+          else if (dias <= 3) tipo = 'urgent';
+          else if (dias <= 10) tipo = 'soon';
+
+          milestones.push({
+            icon:'📝',
+            titulo:'Tarde de Copys',
+            meta:`Escrever copies do próximo mês`,
+            quando: dias < 0 ? `passou` : (dias === 0 ? 'HOJE' : dias === 1 ? 'amanhã' : `em ${dias} dias`),
+            tipo
+          });
+        }
+
+        // 4ª segunda = relatório mensal
+        const segs = this.npTodasSegundas(ano, mesIdx);
+        if (segs[3]) {
+          const dt = new Date(ano, mesIdx, segs[3]);
+          const dias = Math.ceil((dt - hoje) / (1000*60*60*24));
+          let tipo = 'future';
+          if (dias < 0) tipo = 'done';
+          else if (dias <= 3) tipo = 'urgent';
+          else if (dias <= 10) tipo = 'soon';
+
+          milestones.push({
+            icon:'📊',
+            titulo:'Relatório mensal',
+            meta:'Performance dos 3 perfis · publicar artigo do mês',
+            quando: dias < 0 ? `passou` : (dias === 0 ? 'HOJE' : `em ${dias} dias`),
+            tipo
+          });
+        }
+
+        // 1ª, 2ª e 3ª segundas
+        const focosSeg = [
+          { idx:0, icon:'⚖️', titulo:'1ª Segunda · Escritório G&S', meta:'Cards institucional · estratégia' },
+          { idx:1, icon:'👤', titulo:'2ª Segunda · Jenifer', meta:'Cards Jenifer · carrossel fixado' },
+          { idx:2, icon:'👤', titulo:'3ª Segunda · Elizângela', meta:'Cards Elizângela · agendamento' }
+        ];
+        focosSeg.forEach(f => {
+          if (segs[f.idx]) {
+            const dt = new Date(ano, mesIdx, segs[f.idx]);
+            const dias = Math.ceil((dt - hoje) / (1000*60*60*24));
+            let tipo = 'future';
+            if (dias < 0) tipo = 'done';
+            else if (dias === 0 || dias === 1) tipo = 'urgent';
+            else if (dias <= 5) tipo = 'soon';
+
+            milestones.push({
+              icon:f.icon,
+              titulo:f.titulo,
+              meta:f.meta,
+              quando: dias < 0 ? `passou` : (dias === 0 ? 'HOJE' : `em ${dias} dias`),
+              tipo
+            });
+          }
+        });
+
+        // Ordenar por data
+        milestones.sort((a,b) => {
+          const ord = { urgent:0, soon:1, future:2, done:3 };
+          return ord[a.tipo] - ord[b.tipo];
+        });
+
+        milesEl.innerHTML = milestones.map(m => `
+          <div class="np-milestone ${m.tipo}">
+            <div class="np-milestone-icon">${m.icon}</div>
+            <div class="np-milestone-info">
+              <div class="np-milestone-title">${m.titulo}</div>
+              <div class="np-milestone-meta">${m.meta}</div>
+            </div>
+            <div class="np-milestone-when">${m.quando}</div>
+          </div>
+        `).join('');
+      }
+
+      // Distribuição por tipo
+      const distEl = document.getElementById('np-distrib');
+      if (distEl) {
+        const total = pubsMes.length || 1;
+        const tipos = [
+          { id:'educacional', nome:'📚 Educacional', meta:40 },
+          { id:'marca', nome:'⭐ Marca', meta:30 },
+          { id:'conversacional', nome:'💬 Conversacional', meta:20 },
+          { id:'institucional', nome:'🏛️ Institucional', meta:10 }
+        ];
+        distEl.innerHTML = tipos.map(t => {
+          const n = pubsMes.filter(p => p.tipo === t.id).length;
+          const pct = Math.round((n/total)*100);
+          const onTarget = Math.abs(pct - t.meta) <= 10;
+          return `<div class="np-distrib-row">
+            <div class="np-distrib-label">${t.nome}</div>
+            <div class="np-distrib-bar"><div class="np-distrib-fill ${onTarget?'target':''}" style="width:${pct}%"></div></div>
+            <div class="np-distrib-num">${pct}%<br><small style="font-size:0.65rem;color:#888;font-family:sans-serif;">meta ${t.meta}%</small></div>
+          </div>`;
+        }).join('');
+      }
+
+      // Distribuição por perfil
+      const distPEl = document.getElementById('np-distrib-perfis');
+      if (distPEl) {
+        distPEl.innerHTML = this.npPerfis.map(p => {
+          const n = pubsMes.filter(x => x.perfil === p.id && x.formato !== 'story').length;
+          const meta = 20;
+          const pct = Math.min(100, (n/meta)*100);
+          const onTarget = n >= meta;
+          return `<div class="np-distrib-row">
+            <div class="np-distrib-label">${p.nome}</div>
+            <div class="np-distrib-bar"><div class="np-distrib-fill ${onTarget?'target':''}" style="width:${pct}%"></div></div>
+            <div class="np-distrib-num">${n}/${meta}</div>
+          </div>`;
+        }).join('');
+      }
+
+      // Renderizar artigos do mês
+      this.npRenderArtigos();
+    },
+
+    /* ─── Modal de publicação ─── */
+    npNovaPublicacao(data) {
+      this.npState.pubEditando = null;
+      document.getElementById('np-modal-titulo').textContent = 'Nova publicação';
+      document.getElementById('np-mp-perfil').value = 'ag';
+      document.getElementById('np-mp-data').value = data || this.npChaveData(new Date());
+      document.getElementById('np-mp-hora').value = '09:00';
+      document.getElementById('np-mp-formato').value = 'feed';
+      document.getElementById('np-mp-tipo').value = 'educacional';
+      document.getElementById('np-mp-titulo').value = '';
+      document.getElementById('np-mp-copy').value = '';
+      document.getElementById('np-mp-deletar').style.display = 'none';
+      document.getElementById('np-modal-pub').classList.add('open');
+    },
+
+    npEditarPub(id) {
+      const p = (this.data.copys || []).find(x => x.id === id);
+      if (!p) return;
+      this.npState.pubEditando = id;
+      document.getElementById('np-modal-titulo').textContent = 'Editar publicação';
+      document.getElementById('np-mp-perfil').value = p.perfil || 'gs';
+      document.getElementById('np-mp-data').value = p.dataPublicacao || '';
+      document.getElementById('np-mp-hora').value = p.horario || '09:00';
+      document.getElementById('np-mp-formato').value = p.formato || 'feed';
+      document.getElementById('np-mp-tipo').value = p.tipo || 'educacional';
+      document.getElementById('np-mp-titulo').value = p.titulo || '';
+      document.getElementById('np-mp-copy').value = p.texto || '';
+      document.getElementById('np-mp-deletar').style.display = 'inline-block';
+      document.getElementById('np-modal-pub').classList.add('open');
+    },
+
+    npFechar() {
+      document.getElementById('np-modal-pub').classList.remove('open');
+      this.npState.pubEditando = null;
+    },
+
+    npSalvarPub() {
+      const dados = {
+        perfil: document.getElementById('np-mp-perfil').value,
+        dataPublicacao: document.getElementById('np-mp-data').value,
+        horario: document.getElementById('np-mp-hora').value,
+        formato: document.getElementById('np-mp-formato').value,
+        tipo: document.getElementById('np-mp-tipo').value,
+        titulo: document.getElementById('np-mp-titulo').value.trim(),
+        texto: document.getElementById('np-mp-copy').value.trim()
+      };
+
+      if (!dados.titulo) {
+        alert('Adicione um tema/título!');
+        return;
+      }
+
+      if (!this.data.copys) this.data.copys = [];
+
+      if (this.npState.pubEditando) {
+        const p = this.data.copys.find(x => x.id === this.npState.pubEditando);
+        if (p) Object.assign(p, dados);
+      } else {
+        this.data.copys.push({
+          id: this.uid(),
+          ...dados,
+          status: 'pendente',
+          dataCriacao: this.formatDate(new Date()),
+          mes: dados.dataPublicacao.substring(0,7)
+        });
+      }
+
+      this.save();
+      this.npFechar();
+      this.npRender();
+      this.toast('✓ Publicação salva');
+    },
+
+    npDeletarPub() {
+      if (!this.npState.pubEditando) return;
+      if (!confirm('Deletar esta publicação?')) return;
+      this.data.copys = (this.data.copys || []).filter(x => x.id !== this.npState.pubEditando);
+      this.save();
+      this.npFechar();
+      this.npRender();
+      this.toast('🗑️ Publicação deletada');
+    },
+
+    npAbrirCopysMes() {
+      this.npTab('semana');
+      this.toast('💡 Use o botão + de cada dia para criar publicações');
+    },
+    npAbrirArtigos() {
+      const sec = document.querySelector('#np-artigos-lista');
+      if (sec) sec.scrollIntoView({behavior:'smooth', block:'center'});
+    },
+
+    /* ─── ARTIGOS / BLOG ─── */
+
+    npPlataformasJuridicas: [
+      { id:'blog',         nome:'Blog Lex Aura',    tag:'origem',      cor:'#7B52A0' },
+      { id:'medium',       nome:'Medium',           tag:'prioritário', cor:'#16A34A' },
+      { id:'linkedin_ag',  nome:'LinkedIn Lex Aura',tag:'prioritário', cor:'#0A66C2' },
+      { id:'linkedin_je',  nome:'LinkedIn Jenifer', tag:'replicar',    cor:'#0A66C2' },
+      { id:'linkedin_dg',  nome:'LinkedIn Douglas', tag:'replicar',    cor:'#0A66C2' },
+      { id:'instagram',    nome:'Instagram',        tag:'recomendado', cor:'#C4A96B' },
+      { id:'newsletter',   nome:'Newsletter',       tag:'recomendado', cor:'#C4A96B' },
+      { id:'site',         nome:'Site / Portfólio', tag:'novo',        cor:'#888' }
+    ],
+
+    npRenderArtigos() {
+      if (!this.data.artigos) this.data.artigos = [];
+      const hoje = new Date();
+      const baseMes = new Date(hoje.getFullYear(), hoje.getMonth() + this.npState.mesOffset, 1);
+      const chaveMes = `${baseMes.getFullYear()}-${String(baseMes.getMonth()+1).padStart(2,'0')}`;
+
+      const artigos = this.data.artigos.filter(a => a.mes === chaveMes);
+      artigos.sort((a,b) => (a.semana||0) - (b.semana||0));
+
+      const lista = document.getElementById('np-artigos-lista');
+      if (!lista) return;
+
+      if (artigos.length === 0) {
+        lista.innerHTML = `<div style="text-align:center;padding:18px;color:#888;font-family:sans-serif;font-size:0.85rem;background:#FAF7F2;border-radius:10px;border:1px dashed rgba(139,94,60,0.2);">
+          Nenhum artigo cadastrado para este mês.<br>
+          <small style="font-size:0.78rem;color:#aaa;">Meta: 4 artigos no mês (1 por semana)</small>
+        </div>`;
+        return;
+      }
+
+      const statusLabels = {
+        rascunho:    { txt:'📝 Rascunho',   cor:'#888' },
+        escrevendo:  { txt:'✍️ Escrevendo', cor:'#B8941A' },
+        revisao:     { txt:'🔍 Revisão',    cor:'#F59E0B' },
+        publicado:   { txt:'✅ Publicado',  cor:'#16A34A' }
+      };
+
+      lista.innerHTML = artigos.map(a => {
+        const st = statusLabels[a.status] || statusLabels.rascunho;
+        const replics = a.replicacoes || {};
+        const totalReplic = this.npPlataformasJuridicas.length;
+        const feitosReplic = Object.values(replics).filter(Boolean).length;
+        const pctReplic = Math.round((feitosReplic / totalReplic) * 100);
+
+        // mini chips de plataformas (mostrar 5 + contador)
+        const chips = this.npPlataformasJuridicas.slice(0, 5).map(p => {
+          const ok = replics[p.id];
+          return `<span style="display:inline-block;padding:2px 8px;border-radius:5px;font-size:0.68rem;font-weight:600;font-family:sans-serif;background:${ok?p.cor:'#FAF7F2'};color:${ok?'white':'#888'};border:1px solid ${ok?p.cor:'rgba(139,94,60,0.15)'};">${p.nome.split(' ')[0]}${ok?' ✓':''}</span>`;
+        }).join(' ');
+
+        return `<div style="background:white;border-radius:12px;padding:14px 16px;margin-bottom:10px;border:1px solid rgba(139,94,60,0.12);border-left:4px solid ${st.cor};cursor:pointer;transition:all 0.15s;" onclick="app.npEditarArtigo('${a.id}')" onmouseover="this.style.transform='translateX(2px)';this.style.boxShadow='0 3px 10px rgba(0,0,0,0.06)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:8px;flex-wrap:wrap;">
+            <div style="flex:1;min-width:220px;">
+              <div style="display:flex;gap:8px;align-items:center;margin-bottom:4px;">
+                <span style="display:inline-block;padding:2px 9px;background:#3B140D;color:#F2C445;border-radius:5px;font-size:0.7rem;font-weight:700;font-family:sans-serif;letter-spacing:0.5px;">SEMANA ${a.semana || '?'}</span>
+                <span style="font-size:0.72rem;color:${st.cor};font-weight:700;font-family:sans-serif;">${st.txt}</span>
+              </div>
+              <div style="font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:700;color:#3B140D;line-height:1.3;">${a.tema || '<em style="color:#aaa;">(sem título)</em>'}</div>
+            </div>
+            <div style="text-align:right;">
+              <div style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:700;color:${pctReplic === 100 ? '#16A34A' : '#3B140D'};line-height:1;">${feitosReplic}<small style="font-size:0.85rem;color:#888;font-weight:500;">/${totalReplic}</small></div>
+              <div style="font-size:0.65rem;color:#888;text-transform:uppercase;letter-spacing:1px;font-family:sans-serif;font-weight:700;margin-top:2px;">replicações</div>
+            </div>
+          </div>
+          ${a.resumo ? `<div style="font-size:0.82rem;color:#5A3A20;font-family:sans-serif;line-height:1.5;margin-bottom:8px;max-height:42px;overflow:hidden;">${a.resumo.substring(0,160)}${a.resumo.length>160?'…':''}</div>` : ''}
+          <div style="display:flex;gap:5px;flex-wrap:wrap;align-items:center;">${chips}${this.npPlataformasJuridicas.length > 5 ? `<span style="font-size:0.7rem;color:#888;font-family:sans-serif;">+${this.npPlataformasJuridicas.length - 5}</span>` : ''}</div>
+        </div>`;
+      }).join('');
+    },
+
+    npNovoArtigo() {
+      this.npState.artEditando = null;
+      const hoje = new Date();
+      const baseMes = new Date(hoje.getFullYear(), hoje.getMonth() + this.npState.mesOffset, 1);
+
+      // Sugerir próxima semana disponível
+      const chaveMes = `${baseMes.getFullYear()}-${String(baseMes.getMonth()+1).padStart(2,'0')}`;
+      const artigosMes = (this.data.artigos || []).filter(a => a.mes === chaveMes);
+      const semanasUsadas = new Set(artigosMes.map(a => a.semana));
+      let proxSemana = 1;
+      for (let s = 1; s <= 4; s++) {
+        if (!semanasUsadas.has(s)) { proxSemana = s; break; }
+      }
+
+      document.getElementById('np-art-titulo-modal').textContent = 'Novo artigo';
+      document.getElementById('np-art-semana').value = proxSemana;
+      document.getElementById('np-art-status').value = 'rascunho';
+      document.getElementById('np-art-tema').value = '';
+      document.getElementById('np-art-resumo').value = '';
+      document.getElementById('np-art-imagem').value = '';
+      document.getElementById('np-art-deletar').style.display = 'none';
+
+      this.npRenderReplicsModal({});
+      document.getElementById('np-modal-art').classList.add('open');
+    },
+
+    npEditarArtigo(id) {
+      const a = (this.data.artigos || []).find(x => x.id === id);
+      if (!a) return;
+      this.npState.artEditando = id;
+
+      document.getElementById('np-art-titulo-modal').textContent = 'Editar artigo';
+      document.getElementById('np-art-semana').value = a.semana || 1;
+      document.getElementById('np-art-status').value = a.status || 'rascunho';
+      document.getElementById('np-art-tema').value = a.tema || '';
+      document.getElementById('np-art-resumo').value = a.resumo || '';
+      document.getElementById('np-art-imagem').value = a.imagemIA || '';
+      document.getElementById('np-art-deletar').style.display = 'inline-block';
+
+      this.npRenderReplicsModal(a.replicacoes || {});
+      document.getElementById('np-modal-art').classList.add('open');
+    },
+
+    npRenderReplicsModal(replics) {
+      const cont = document.getElementById('np-art-replics');
+      if (!cont) return;
+      cont.innerHTML = this.npPlataformasJuridicas.map(p => {
+        const ok = replics[p.id] || false;
+        return `<label style="display:flex;align-items:center;gap:7px;padding:8px 10px;background:${ok?'rgba(22,163,74,0.08)':'#FAF7F2'};border:1px solid ${ok?'#16A34A':'rgba(139,94,60,0.15)'};border-radius:7px;cursor:pointer;font-family:sans-serif;font-size:0.82rem;color:#3B140D;transition:all 0.15s;">
+          <input type="checkbox" data-replic="${p.id}" ${ok?'checked':''} style="width:15px;height:15px;cursor:pointer;accent-color:#16A34A;">
+          <span style="flex:1;">${p.nome}</span>
+          <span style="font-size:0.62rem;color:#888;text-transform:uppercase;letter-spacing:0.5px;font-weight:700;">${p.tag}</span>
+        </label>`;
+      }).join('');
+    },
+
+    npFecharArtigo() {
+      document.getElementById('np-modal-art').classList.remove('open');
+      this.npState.artEditando = null;
+    },
+
+    npSalvarArtigo() {
+      const tema = document.getElementById('np-art-tema').value.trim();
+      if (!tema) {
+        alert('Adicione um tema para o artigo!');
+        return;
+      }
+
+      // Coletar replicações
+      const replicacoes = {};
+      document.querySelectorAll('#np-art-replics input[type="checkbox"]').forEach(chk => {
+        replicacoes[chk.dataset.replic] = chk.checked;
+      });
+
+      const hoje = new Date();
+      const baseMes = new Date(hoje.getFullYear(), hoje.getMonth() + this.npState.mesOffset, 1);
+      const chaveMes = `${baseMes.getFullYear()}-${String(baseMes.getMonth()+1).padStart(2,'0')}`;
+
+      const dados = {
+        mes: chaveMes,
+        semana: parseInt(document.getElementById('np-art-semana').value, 10),
+        status: document.getElementById('np-art-status').value,
+        tema,
+        resumo: document.getElementById('np-art-resumo').value.trim(),
+        imagemIA: document.getElementById('np-art-imagem').value.trim(),
+        replicacoes
+      };
+
+      if (!this.data.artigos) this.data.artigos = [];
+
+      if (this.npState.artEditando) {
+        const a = this.data.artigos.find(x => x.id === this.npState.artEditando);
+        if (a) Object.assign(a, dados);
+      } else {
+        this.data.artigos.push({
+          id: this.uid(),
+          ...dados,
+          dataCriacao: this.formatDate(new Date())
+        });
+      }
+
+      this.save();
+      this.npFecharArtigo();
+      this.npRenderArtigos();
+      this.npRenderMes();
+      this.toast('✓ Artigo salvo');
+    },
+
+    npDeletarArtigo() {
+      if (!this.npState.artEditando) return;
+      if (!confirm('Deletar este artigo?')) return;
+      this.data.artigos = (this.data.artigos || []).filter(x => x.id !== this.npState.artEditando);
+      this.save();
+      this.npFecharArtigo();
+      this.npRenderArtigos();
+      this.npRenderMes();
+      this.toast('🗑️ Artigo deletado');
+    },
+
+    /* ─── Utils ─── */
+    npChaveData(d) {
+      return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+    },
+
+    npUltimaSegunda(ano, mes) {
+      const ult = new Date(ano, mes+1, 0);
+      for (let d = ult.getDate(); d > 0; d--) {
+        const dt = new Date(ano, mes, d);
+        if (dt.getDay() === 1) return d;
+      }
+      return null;
+    },
+
+    npTodasSegundas(ano, mes) {
+      const ult = new Date(ano, mes+1, 0).getDate();
+      const segs = [];
+      for (let d = 1; d <= ult; d++) {
+        const dt = new Date(ano, mes, d);
+        if (dt.getDay() === 1) segs.push(d);
+      }
+      return segs;
+    },
+
 
   /* ── UTILITÁRIOS ── */
   uid() { return Date.now().toString(36)+Math.random().toString(36).substr(2,5); },
