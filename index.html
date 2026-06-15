@@ -2138,7 +2138,7 @@
           <option value="socios-la">🤝 Sócios LA — Gestão Estratégica</option>
         </select>
         <div id="categoria-conteudo-group" style="display:none;">
-          <label>Categoria:</label>
+          <label>Destino — onde essa ideia vai?</label>
           <select id="idea-categoria-conteudo" style="width:100%;">
             <option value="">— Selecione —</option>
             <option value="conteudo">📱 Conteúdo (→ Social Media)</option>
@@ -2827,12 +2827,13 @@ const app = {
     const isSocios = frente === 'socios-la';
     const isRoteiro = tipo === 'roteiro';
 
-    // Quando é roteiro, NÃO mostra o briefing completo (só o bloco roteiro)
-    if (g)   g.classList.toggle('visible', isSM && !isRoteiro);
+    // Briefing completo (perfil, nº de artes, tipo de arte, hashtags, legenda) e Destino
+    // SEMPRE aparecem quando for frente de conteúdo (jenifer/douglas/agencia)
+    if (g)   g.classList.toggle('visible', isSM);
     if (gs)  gs.classList.toggle('visible', isSocios);
-    if (ccg) ccg.style.display = (isSM && !isRoteiro) ? 'block' : 'none';
+    if (ccg) ccg.style.display = isSM ? 'block' : 'none';
 
-    // Bloco específico de roteiro (campo grande pro texto do teleprompter)
+    // Bloco extra de roteiro (campo grande) aparece quando tipo = roteiro
     const roteiroBox = document.getElementById('roteiro-fields-group');
     if (roteiroBox) roteiroBox.style.display = (isSM && isRoteiro) ? 'block' : 'none';
 
