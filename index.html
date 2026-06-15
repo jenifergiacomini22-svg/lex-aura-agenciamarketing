@@ -243,6 +243,7 @@
     .brief-status-badge.bruto     { background: #f0ece4; color: var(--grafite); }
     .brief-status-badge.roteiro   { background: rgba(123,82,160,0.12); color: var(--agencia-cor); }
     .brief-status-badge.gravar    { background: rgba(58,112,64,0.12); color: var(--verde); }
+    .brief-status-badge.edicao    { background: rgba(196,169,107,0.18); color: var(--dourado-dk); }
     .brief-status-badge.publicado { background: rgba(58,112,64,0.2); color: var(--verde); }
 
     .brief-card-meta    { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
@@ -366,7 +367,7 @@
     .filter-btn[data-filter="douglas"].active  { background: var(--douglas-cor); border-color: var(--douglas-cor); }
     .filter-btn[data-filter="socios-la"].active { background: var(--agencia-dk); border-color: var(--agencia-dk); }
 
-    .kanban-board { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; }
+    .kanban-board { display: grid; grid-template-columns: repeat(5,1fr); gap: 12px; }
     .kanban-column { background: var(--bege-card); border-radius: var(--radius); padding: 14px; border: 1px solid var(--cinza); min-height: 500px; display: flex; flex-direction: column; }
     .column-header { font-family: sans-serif; font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: var(--grafite-dk); padding-bottom: 10px; border-bottom: 2px solid var(--agencia-cor); margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
     .column-count  { background: var(--agencia-cor); color: var(--branco); border-radius: 20px; padding: 2px 8px; font-size: 0.7rem; }
@@ -402,9 +403,9 @@
     .tp-panel.active { display: block; }
     .teleprompter-toolbar   { display: flex; gap: 12px; margin-bottom: 16px; align-items: center; flex-wrap: wrap; }
     .script-selector        { flex: 1; min-width: 200px; padding: 10px 14px; border: 1.5px solid var(--cinza); border-radius: var(--radius); font-family: inherit; font-size: 0.9rem; background: var(--branco); }
-    .teleprompter-wrapper   { background: var(--preto); border-radius: var(--radius); min-height: 400px; padding: 40px; display: flex; align-items: flex-start; position: relative; overflow: hidden; }
-    .teleprompter-text      { color: var(--branco); font-size: 1.6rem; line-height: 1.8; white-space: pre-wrap; text-align: center; width: 100%; transition: font-size 0.2s; }
-    .teleprompter-empty     { display: flex; align-items: center; justify-content: center; width: 100%; min-height: 300px; color: rgba(255,255,255,0.4); font-size: 1rem; text-align: center; }
+    .teleprompter-wrapper   { background: linear-gradient(160deg, #2d1f40 0%, #1a0f2e 100%); border-radius: var(--radius); min-height: 400px; padding: 40px; display: flex; align-items: flex-start; position: relative; overflow: hidden; box-shadow: inset 0 2px 20px rgba(0,0,0,0.25); }
+    .teleprompter-text      { color: #F5F0E6; font-size: 1.6rem; line-height: 1.8; white-space: pre-wrap; text-align: center; width: 100%; transition: font-size 0.2s; }
+    .teleprompter-empty     { display: flex; align-items: center; justify-content: center; width: 100%; min-height: 300px; color: rgba(245,240,230,0.45); font-size: 1rem; text-align: center; }
     .teleprompter-controls  { display: flex; gap: 12px; align-items: center; margin-top: 14px; flex-wrap: wrap; }
     .control-btn  { padding: 10px 20px; background: var(--grafite-dk); color: var(--branco); border: none; border-radius: var(--radius); cursor: pointer; font-weight: 700; font-family: sans-serif; font-size: 0.88rem; transition: all 0.2s; }
     .control-btn:hover { background: var(--agencia-cor); }
@@ -422,6 +423,24 @@
     .tp-texto-input { width: 100%; min-height: 220px; padding: 14px 16px; border: 1.5px solid var(--cinza); border-radius: 8px; font-family: 'Georgia', serif; font-size: 1rem; line-height: 1.7; resize: vertical; }
     .tp-texto-input:focus { border-color: var(--agencia-cor); outline: none; }
     .tp-save-btn { padding: 13px 20px; font-size: 0.95rem; }
+
+    /* ── PÁGINA ROTEIROS ── */
+    .roteiros-board { display: flex; flex-direction: column; gap: 24px; }
+    .roteiros-section { background: var(--branco); border-radius: var(--radius); padding: 18px 20px; box-shadow: var(--shadow); }
+    .roteiros-section-header { font-family: sans-serif; font-size: 0.85rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; padding-bottom: 10px; border-bottom: 2px solid; margin-bottom: 14px; display: flex; align-items: center; gap: 6px; }
+    .roteiros-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
+    .roteiro-card { background: var(--off-white); border-radius: 10px; padding: 14px; border-left: 4px solid var(--agencia-cor); cursor: pointer; transition: all 0.2s; display: flex; flex-direction: column; gap: 8px; }
+    .roteiro-card:hover { background: var(--bege); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+    .roteiro-card.jenifer { border-left-color: var(--jenifer-cor); }
+    .roteiro-card.douglas { border-left-color: var(--douglas-cor); }
+    .roteiro-card-title { font-weight: 700; font-size: 0.92rem; color: var(--grafite-dk); line-height: 1.3; }
+    .roteiro-card-meta { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; font-family: sans-serif; }
+    .roteiro-card-preview { font-size: 0.78rem; color: var(--grafite); line-height: 1.45; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; font-family: sans-serif; }
+    .roteiro-card-actions { display: flex; gap: 6px; padding-top: 6px; border-top: 1px solid var(--cinza); margin-top: auto; }
+    .roteiro-card-actions button { flex: 1; padding: 6px 8px; font-size: 0.72rem; font-family: sans-serif; font-weight: 700; border-radius: 6px; border: 1.5px solid var(--cinza); background: var(--branco); cursor: pointer; transition: all 0.2s; color: var(--grafite-dk); }
+    .roteiro-card-actions button:hover { background: var(--agencia-cor); color: white; border-color: var(--agencia-cor); }
+    .roteiro-card-actions button.danger:hover { background: var(--vermelho); border-color: var(--vermelho); }
+    .roteiros-empty { text-align: center; padding: 24px; color: var(--grafite); font-family: sans-serif; font-size: 0.85rem; background: var(--off-white); border-radius: 8px; border: 2px dashed var(--cinza); grid-column: 1/-1; }
 
     /* ═══ RASCUNHO ═══ */
     .rascunho-capture { background: var(--preto); border-radius: var(--radius); padding: 20px; margin-bottom: 24px; box-shadow: 0 4px 24px rgba(0,0,0,0.18); border: 1.5px solid rgba(123,82,160,0.3); }
@@ -558,6 +577,7 @@
     <button class="topnav-link" data-screen="agenda">📅 Agenda</button>
     <button class="topnav-link" data-screen="ideias">💡 Ideias</button>
     <button class="topnav-link" data-screen="teleprompter">📖 Teleprompter</button>
+    <button class="topnav-link" data-screen="roteiros" style="color:rgba(196,169,107,0.9);">📝 Roteiros</button>
     <div style="width:1px;background:rgba(255,255,255,0.15);height:24px;margin:0 6px;"></div>
     <button class="topnav-link" data-screen="planejamento" style="color:rgba(186,152,220,0.85);">📋 Planejamento</button>
     <button class="topnav-link" data-screen="social-media" style="color:rgba(186,152,220,0.85);">📱 Social Media</button>
@@ -576,6 +596,7 @@
     <button class="topnav-link" data-screen="agenda" onclick="app.goTo('agenda');app.closeMobileMenu()">📅 Agenda</button>
     <button class="topnav-link" data-screen="ideias" onclick="app.goTo('ideias');app.closeMobileMenu()">💡 Ideias</button>
     <button class="topnav-link" data-screen="teleprompter" onclick="app.goTo('teleprompter');app.closeMobileMenu()">📖 Teleprompter</button>
+    <button class="topnav-link" data-screen="roteiros" onclick="app.goTo('roteiros');app.closeMobileMenu()" style="color:rgba(196,169,107,0.9);">📝 Roteiros</button>
     <div class="mobile-menu-divider"></div>
     <button class="topnav-link" data-screen="planejamento" onclick="app.goTo('planejamento');app.closeMobileMenu()" style="color:rgba(186,152,220,0.85);">📋 Planejamento</button>
     <button class="topnav-link" data-screen="social-media" onclick="app.goTo('social-media');app.closeMobileMenu()" style="color:rgba(186,152,220,0.85);">📱 Social Media</button>
@@ -690,6 +711,7 @@
         <div class="kanban-column"><div class="column-header">📝 Ideia Bruta <span class="column-count" id="count-bruto">0</span></div><div class="column-cards" id="col-bruto"></div></div>
         <div class="kanban-column"><div class="column-header">✍️ Em Roteiro <span class="column-count" id="count-roteiro">0</span></div><div class="column-cards" id="col-roteiro"></div></div>
         <div class="kanban-column"><div class="column-header">🎥 Para Gravar <span class="column-count" id="count-gravar">0</span></div><div class="column-cards" id="col-gravar"></div></div>
+        <div class="kanban-column"><div class="column-header">✂️ Edição <span class="column-count" id="count-edicao">0</span></div><div class="column-cards" id="col-edicao"></div></div>
         <div class="kanban-column"><div class="column-header">✅ Publicado <span class="column-count" id="count-publicado">0</span></div><div class="column-cards" id="col-publicado"></div></div>
       </div>
       <div style="margin-top:40px;padding-top:28px;border-top:2px solid var(--cinza);">
@@ -732,6 +754,7 @@
           <input type="range" id="speed-slider-jenifer" min="0.5" max="4" step="0.1" value="1" class="speed-slider" oninput="app.updateSpeed(this.value,'jenifer')">
           <span id="speed-value-jenifer">1x</span>
           <button class="control-btn" onclick="app.toggleFullscreen('tp-container-jenifer')">⛶ Fullscreen</button>
+          <button id="tp-gravado-jenifer" class="control-btn" style="display:none;background:var(--verde);" onclick="app.marcarComoGravado('jenifer')">✅ Marcar como Gravado</button>
           <button class="control-btn" style="background:var(--cinza);color:var(--grafite-dk);" onclick="app.fecharTeleprompter('jenifer')">✏️ Editar</button>
         </div>
       </div>
@@ -759,7 +782,59 @@
           <input type="range" id="speed-slider-douglas" min="0.5" max="4" step="0.1" value="1" class="speed-slider" oninput="app.updateSpeed(this.value,'douglas')">
           <span id="speed-value-douglas">1x</span>
           <button class="control-btn" onclick="app.toggleFullscreen('tp-container-douglas')">⛶ Fullscreen</button>
+          <button id="tp-gravado-douglas" class="control-btn" style="display:none;background:var(--verde);" onclick="app.marcarComoGravado('douglas')">✅ Marcar como Gravado</button>
           <button class="control-btn" style="background:var(--cinza);color:var(--grafite-dk);" onclick="app.fecharTeleprompter('douglas')">✏️ Editar</button>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ══ ROTEIROS ══ -->
+    <section id="roteiros" class="screen" style="background:#F2EDE8;">
+      <div class="app-container">
+        <div class="screen-header">
+          <div>
+            <h1>📝 Roteiros</h1>
+            <p>Biblioteca de roteiros · escreva, organize e envie para o teleprompter</p>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button class="btn-primary" style="background:var(--jenifer-cor);" onclick="app.novoRoteiroPagina('jenifer')">+ Roteiro Jenifer</button>
+            <button class="btn-primary" style="background:var(--douglas-cor);" onclick="app.novoRoteiroPagina('douglas')">+ Roteiro Douglas</button>
+          </div>
+        </div>
+
+        <!-- Filtros por sócio -->
+        <div class="ideias-filters">
+          <button class="filter-btn active" data-rot-filter="all" onclick="app.filtroRoteiros('all')">Todos</button>
+          <button class="filter-btn" data-rot-filter="jenifer" onclick="app.filtroRoteiros('jenifer')">👤 Jenifer</button>
+          <button class="filter-btn" data-rot-filter="douglas" onclick="app.filtroRoteiros('douglas')">👤 Douglas</button>
+        </div>
+
+        <!-- Lista de roteiros agrupada por status -->
+        <div class="roteiros-board">
+          <div class="roteiros-section">
+            <div class="roteiros-section-header" style="color:var(--agencia-cor);border-color:var(--agencia-cor);">
+              ✍️ Em Roteiro <span class="column-count" id="rot-count-roteiro">0</span>
+              <span style="font-size:0.72rem;color:var(--grafite);font-weight:400;font-family:sans-serif;margin-left:8px;">— em construção</span>
+            </div>
+            <div id="rot-list-roteiro" class="roteiros-list"></div>
+          </div>
+
+          <div class="roteiros-section">
+            <div class="roteiros-section-header" style="color:var(--verde);border-color:var(--verde);">
+              🎥 Para Gravar <span class="column-count" id="rot-count-gravar" style="background:var(--verde);">0</span>
+              <span style="font-size:0.72rem;color:var(--grafite);font-weight:400;font-family:sans-serif;margin-left:8px;">— prontos para o teleprompter</span>
+            </div>
+            <div id="rot-list-gravar" class="roteiros-list"></div>
+          </div>
+
+          <div class="roteiros-section">
+            <div class="roteiros-section-header" style="color:var(--grafite);border-color:var(--cinza);">
+              📁 Avulsos <span class="column-count" id="rot-count-avulsos" style="background:var(--grafite);">0</span>
+              <span style="font-size:0.72rem;color:var(--grafite);font-weight:400;font-family:sans-serif;margin-left:8px;">— sem vínculo com ideia</span>
+            </div>
+            <div id="rot-list-avulsos" class="roteiros-list"></div>
+          </div>
         </div>
       </div>
     </section>
@@ -1998,6 +2073,7 @@
             <option value="rascunho">📝 Rascunho</option>
             <option value="escrevendo">✍️ Escrevendo</option>
             <option value="revisao">🔍 Revisão</option>
+            <option value="edicao">✂️ Edição</option>
             <option value="publicado">✅ Publicado</option>
           </select>
         </div>
@@ -2112,6 +2188,19 @@
             <label style="margin-bottom:5px;display:block;">Legenda / Texto do Post</label>
             <textarea id="idea-legenda" placeholder="Texto para a publicação..." style="min-height:80px;width:100%;"></textarea>
           </div>
+
+          <!-- Campos específicos para Reels/Vídeo -->
+          <div id="reels-fields-group" style="display:none;background:rgba(123,82,160,0.04);border:1px dashed rgba(123,82,160,0.25);border-radius:8px;padding:12px;margin-top:8px;">
+            <div style="font-family:sans-serif;font-size:0.75rem;font-weight:700;color:var(--agencia-cor);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:10px;">🎬 Detalhes do Reels / Vídeo</div>
+            <div class="brief-row full">
+              <label style="margin-bottom:5px;display:block;">Título da capa (chamada na capa do Reels)</label>
+              <input type="text" id="idea-reels-capa" placeholder="Ex: VOCÊ ESTÁ PERDENDO DINHEIRO ASSIM" style="width:100%;">
+            </div>
+            <div class="brief-row full">
+              <label style="margin-bottom:5px;display:block;">Legenda completa do Reels</label>
+              <textarea id="idea-reels-legenda" placeholder="Legenda completa para postar no Reels — com call to action, perguntas, hashtags..." style="min-height:100px;width:100%;"></textarea>
+            </div>
+          </div>
         </div>
         <!-- Campos Sócios -->
         <div class="socios-fields" id="socios-fields-group">
@@ -2187,6 +2276,32 @@
         <button type="button" class="btn-danger" onclick="app.deleteCurrentIdea()">🗑️ Deletar</button>
         <button type="button" class="btn-secondary" onclick="app.closeModal('modal-idea-detail')">Fechar</button>
       </div>
+    </div>
+  </div>
+
+  <!-- Modal Roteiro (página Roteiros) -->
+  <div id="modal-roteiro" class="modal">
+    <div class="modal-content modal-large">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+        <h2 id="modal-roteiro-title">📝 Novo Roteiro</h2>
+        <button class="btn-small-close" onclick="app.closeModal('modal-roteiro')">✕</button>
+      </div>
+      <form id="form-roteiro" onsubmit="app.salvarRoteiroPagina(event)">
+        <input type="hidden" id="roteiro-id">
+        <input type="hidden" id="roteiro-socio">
+        <input type="hidden" id="roteiro-vinculo-ideia">
+
+        <label>Título do roteiro</label>
+        <input type="text" id="roteiro-titulo" placeholder="Ex: Reels sobre golpe do PIX" required>
+
+        <label>Texto completo do roteiro</label>
+        <textarea id="roteiro-conteudo" placeholder="Escreva ou cole aqui o roteiro completo..." required style="min-height:240px;font-family:'Georgia',serif;font-size:0.95rem;line-height:1.6;"></textarea>
+
+        <div class="modal-buttons" style="margin-top:10px;">
+          <button type="submit" class="btn-primary" id="roteiro-submit-btn">💾 Salvar</button>
+          <button type="button" class="btn-secondary" onclick="app.closeModal('modal-roteiro')">Cancelar</button>
+        </div>
+      </form>
     </div>
   </div>
 
@@ -2309,6 +2424,9 @@ const app = {
     const frenteEl = document.getElementById('idea-frente');
     if (frenteEl) frenteEl.addEventListener('change', () => this._toggleBriefFields(frenteEl.value));
 
+    const tipoArteEl = document.getElementById('idea-tipo-arte');
+    if (tipoArteEl) tipoArteEl.addEventListener('change', () => this._toggleReelsFields());
+
     document.getElementById('btn-new-idea')?.addEventListener('click', () => {
       document.getElementById('form-idea').reset();
       document.getElementById('idea-id').value = '';
@@ -2402,6 +2520,7 @@ const app = {
     if (screen === 'ideias')       this.renderKanban();
     if (screen === 'agenda')       this.renderAgendaDay();
     if (screen === 'teleprompter') this.renderScriptSelectors();
+    if (screen === 'roteiros')     this.renderRoteirosPagina();
     if (screen === 'social-media') { this.renderSocialMedia(); this.renderPrompts('social-media','prompts-social-media'); }
     if (screen === 'assessoria')   { this.renderAssessoria(); this.renderPrompts('assessoria','prompts-assessoria'); }
     if (screen === 'socios')       this.renderSocios();
@@ -2490,7 +2609,7 @@ const app = {
   },
 
   renderKanban() {
-    const statuses = ['bruto','roteiro','gravar','publicado'];
+    const statuses = ['bruto','roteiro','gravar','edicao','publicado'];
     const filtered = this.currentFilter === 'all'
       ? this.data.ideas.filter(i => i.frente !== 'socios-la')
       : this.currentFilter === 'socios-la' ? []
@@ -2558,7 +2677,7 @@ const app = {
     this.currentIdeaId = id;
     const idea = this.data.ideas.find(i => i.id === id);
     if (!idea) return;
-    const statuses = [{key:'bruto',label:'📝 Ideia Bruta'},{key:'roteiro',label:'✍️ Em Roteiro'},{key:'gravar',label:'🎥 Para Gravar'},{key:'publicado',label:'✅ Publicado'}];
+    const statuses = [{key:'bruto',label:'📝 Ideia Bruta'},{key:'roteiro',label:'✍️ Em Roteiro'},{key:'gravar',label:'🎥 Para Gravar'},{key:'edicao',label:'✂️ Edição'},{key:'publicado',label:'✅ Publicado'}];
     const imgSection = idea.image ? `<img src="${idea.image}" style="max-width:100%;border-radius:8px;margin-bottom:12px;">` : '';
     document.getElementById('idea-detail-content').innerHTML = `
       ${imgSection}
@@ -2618,6 +2737,8 @@ const app = {
     document.getElementById('idea-tipo-arte').value = idea.tipoArte  || '';
     document.getElementById('idea-hashtags').value  = idea.hashtags  || '';
     document.getElementById('idea-legenda').value   = idea.legenda   || '';
+    document.getElementById('idea-reels-capa').value    = idea.reelsCapa    || '';
+    document.getElementById('idea-reels-legenda').value = idea.reelsLegenda || '';
     document.getElementById('idea-categoria').value  = idea.categoria  || '';
     document.getElementById('idea-responsavel').value= idea.responsavel|| '';
     document.getElementById('idea-impacto').value    = idea.impacto    || '';
@@ -2643,6 +2764,15 @@ const app = {
     }
     const catEl = document.getElementById('idea-categoria-conteudo');
     if (catEl && !catEl.value) catEl.value = 'conteudo';
+    this._toggleReelsFields();
+  },
+
+  _toggleReelsFields() {
+    const tipoArte = document.getElementById('idea-tipo-arte')?.value || '';
+    const reelsBox = document.getElementById('reels-fields-group');
+    if (reelsBox) {
+      reelsBox.style.display = (tipoArte === 'reels' || tipoArte === 'video') ? 'block' : 'none';
+    }
   },
 
   deleteCurrentIdea() {
@@ -2672,6 +2802,8 @@ const app = {
       tipoArte:    document.getElementById('idea-tipo-arte').value    || null,
       hashtags:    document.getElementById('idea-hashtags').value.trim() || null,
       legenda:     document.getElementById('idea-legenda').value.trim()  || null,
+      reelsCapa:    document.getElementById('idea-reels-capa').value.trim()    || null,
+      reelsLegenda: document.getElementById('idea-reels-legenda').value.trim() || null,
       categoria:   document.getElementById('idea-categoria').value    || null,
       responsavel: document.getElementById('idea-responsavel').value  || null,
       impacto:     document.getElementById('idea-impacto').value.trim() || null,
@@ -2721,7 +2853,7 @@ const app = {
     this.currentIdeaId = id;
     const perfilLabels = {'agencia-geral':'✨ Lex Aura Geral','socio-jenifer':'👤 Jenifer','socio-douglas':'👤 Douglas',''  :'—'};
     const tipoArteLabels = {'carrossel':'🖼️ Carrossel','reels':'🎬 Reels','story':'📱 Story','feed':'🖼️ Post Feed','video':'🎥 Vídeo','lives':'📡 Lives','destaques':'⭐ Destaques',''  :'-'};
-    const statusLabels = {bruto:'📝 Em Criação',roteiro:'✍️ Em Roteiro',gravar:'🎥 Para Produzir',publicado:'✅ Publicado'};
+    const statusLabels = {bruto:'📝 Em Criação',roteiro:'✍️ Em Roteiro',gravar:'🎥 Para Produzir',edicao:'✂️ Edição',publicado:'✅ Publicado'};
     const field = (label, val) => val ? `<div class="brief-detail-field"><div class="brief-detail-label">${label}</div><div class="brief-detail-value">${val}</div></div>` : '';
     document.getElementById('brief-detail-content').innerHTML = `
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
@@ -2731,9 +2863,10 @@ const app = {
         ${field('Data Criação', idea.dataCriacao)}${idea.link?field('Link',`<a href="${idea.link}" target="_blank">${idea.link}</a>`):''}
       </div>
       ${field('Legenda / Texto do Post', idea.legenda)}${field('Hashtags', idea.hashtags)}
+      ${idea.reelsCapa ? `<div style="background:rgba(123,82,160,0.06);border-left:3px solid var(--agencia-cor);padding:12px;border-radius:6px;margin-top:10px;">${field('🎬 Título da Capa', idea.reelsCapa)}${idea.reelsLegenda?field('🎬 Legenda do Reels', idea.reelsLegenda):''}</div>` : ''}
       ${idea.descricao?field('Notas', idea.descricao):''}
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;">
-        ${['bruto','roteiro','gravar','publicado'].map(s=>`<button class="btn-brief-action status ${idea.status===s?'active':''}" style="${idea.status===s?'background:var(--agencia-cor);color:white;':''}" onclick="app.changeBriefStatus('${idea.id}','${s}')">${statusLabels[s]}</button>`).join('')}
+        ${['bruto','roteiro','gravar','edicao','publicado'].map(s=>`<button class="btn-brief-action status ${idea.status===s?'active':''}" style="${idea.status===s?'background:var(--agencia-cor);color:white;':''}" onclick="app.changeBriefStatus('${idea.id}','${s}')">${statusLabels[s]}</button>`).join('')}
       </div>`;
     document.getElementById('modal-brief-detail').classList.add('open');
   },
@@ -2840,57 +2973,64 @@ const app = {
     document.getElementById(`tp-${socio}`)?.classList.add('active');
   },
 
-  // ID do roteiro atualmente carregado em cada aba (null = roteiro novo)
-  _tpRoteiroAtual: { jenifer: null, douglas: null },
+  // ID do roteiro/ideia atualmente carregado em cada aba
+  // { tipo:'script'|'idea'|null, id:'...' }
+  _tpRoteiroAtual: { jenifer: { tipo:null, id:null }, douglas: { tipo:null, id:null } },
 
   renderScriptSelectors() {
     ['jenifer','douglas'].forEach(socio => {
       const sel = document.getElementById(`script-select-${socio}`); if(!sel) return;
-      const scripts = (this.data.scripts||[]).filter(s=>s.socio===socio);
-      const ideaScripts = this.data.ideas.filter(i=>i.frente===socio&&i.tipo==='roteiro'&&(i.status==='gravar'||i.status==='roteiro'))
-        .map(i=>({id:`idea_${i.id}`,titulo:`💡 ${i.titulo}`,conteudo:i.descricao||i.titulo,socio}));
       const nome = socio==='jenifer'?'Jenifer':'Douglas';
-      let html = `<option value="">📂 Roteiros salvos de ${nome}...</option>`;
+
+      // Ideias em "Para Gravar" desse sócio (vêm do fluxo do Banco de Ideias)
+      const paraGravar = this.data.ideas.filter(i=>i.frente===socio&&i.status==='gravar');
+      // Roteiros avulsos salvos só no teleprompter
+      const scripts = (this.data.scripts||[]).filter(s=>s.socio===socio);
+
+      let html = `<option value="">📂 Roteiros de ${nome}...</option>`;
+      if (paraGravar.length) {
+        html += `<optgroup label="🎥 Para Gravar (do Banco de Ideias)">`;
+        paraGravar.forEach(i=>{ html += `<option value="idea_${i.id}">${i.titulo}</option>`; });
+        html += `</optgroup>`;
+      }
       if (scripts.length) {
-        html += `<optgroup label="Salvos">`;
+        html += `<optgroup label="📝 Roteiros avulsos salvos">`;
         scripts.forEach(s=>{ html += `<option value="${s.id}">${s.titulo}</option>`; });
         html += `</optgroup>`;
       }
-      if (ideaScripts.length) {
-        html += `<optgroup label="Do Banco de Ideias">`;
-        ideaScripts.forEach(s=>{ html += `<option value="${s.id}">${s.titulo}</option>`; });
-        html += `</optgroup>`;
+      if (!paraGravar.length && !scripts.length) {
+        html += `<option value="" disabled>Nenhum roteiro — cole um abaixo</option>`;
       }
       sel.innerHTML = html;
     });
   },
 
-  // Carrega roteiro selecionado no editor (não no modo rolagem)
+  // Carrega roteiro selecionado no editor
   loadScript(id, socio) {
     const tituloEl = document.getElementById(`tp-titulo-${socio}`);
     const textoEl  = document.getElementById(`tp-texto-${socio}`);
-    if (!id) { this._tpRoteiroAtual[socio] = null; return; }
+    if (!id) { this._tpRoteiroAtual[socio] = { tipo:null, id:null }; return; }
 
     if (id.startsWith('idea_')) {
       const idea = this.data.ideas.find(i=>i.id===id.replace('idea_',''));
       if (!idea) return;
-      // Ideia vira um roteiro editável novo (não sobrescreve a ideia)
-      this._tpRoteiroAtual[socio] = null;
+      // Ideia do fluxo — mantém vínculo para poder marcar como gravada
+      this._tpRoteiroAtual[socio] = { tipo:'idea', id:idea.id };
       tituloEl.value = idea.titulo || '';
       textoEl.value  = idea.descricao || idea.titulo || '';
     } else {
       const script = (this.data.scripts||[]).find(s=>s.id===id);
       if (!script) return;
-      this._tpRoteiroAtual[socio] = script.id;
+      this._tpRoteiroAtual[socio] = { tipo:'script', id:script.id };
       tituloEl.value = script.titulo || '';
       textoEl.value  = script.conteudo || '';
     }
-    this.fecharTeleprompter(socio); // garante que está em modo edição
+    this.fecharTeleprompter(socio);
   },
 
   // Limpa o editor para um roteiro novo
   novoRoteiro(socio) {
-    this._tpRoteiroAtual[socio] = null;
+    this._tpRoteiroAtual[socio] = { tipo:null, id:null };
     document.getElementById(`tp-titulo-${socio}`).value = '';
     document.getElementById(`tp-texto-${socio}`).value  = '';
     const sel = document.getElementById(`script-select-${socio}`);
@@ -2898,33 +3038,36 @@ const app = {
     this.fecharTeleprompter(socio);
   },
 
-  // Salva (atualiza ou cria) e entra no modo rolagem
+  // Salva e entra no modo rolagem
   salvarEUsar(socio) {
     const titulo = document.getElementById(`tp-titulo-${socio}`).value.trim();
     const texto  = document.getElementById(`tp-texto-${socio}`).value.trim();
     if (!titulo) { this.toast('✏️ Dê um título ao roteiro'); return; }
     if (!texto)  { this.toast('✏️ Cole o texto do roteiro'); return; }
 
-    if (!this.data.scripts) this.data.scripts = [];
-    const atualId = this._tpRoteiroAtual[socio];
+    const atual = this._tpRoteiroAtual[socio] || { tipo:null, id:null };
 
-    if (atualId) {
-      // Atualiza o mesmo roteiro
-      const s = this.data.scripts.find(x=>x.id===atualId);
+    if (atual.tipo === 'idea') {
+      // Editou um roteiro vindo de uma ideia — atualiza a descrição da ideia
+      const idea = this.data.ideas.find(i=>i.id===atual.id);
+      if (idea) { idea.titulo = titulo; idea.descricao = texto; }
+      this.toast('💾 Roteiro da ideia atualizado!');
+    } else if (atual.tipo === 'script') {
+      // Atualiza roteiro avulso existente
+      const s = (this.data.scripts||[]).find(x=>x.id===atual.id);
       if (s) { s.titulo = titulo; s.conteudo = texto; }
       this.toast('💾 Roteiro atualizado!');
     } else {
-      // Cria novo
+      // Cria roteiro avulso novo
+      if (!this.data.scripts) this.data.scripts = [];
       const novo = { id:this.uid(), titulo, conteudo:texto, socio };
       this.data.scripts.push(novo);
-      this._tpRoteiroAtual[socio] = novo.id;
+      this._tpRoteiroAtual[socio] = { tipo:'script', id:novo.id };
       this.toast('💾 Roteiro salvo!');
     }
     this.save();
     this.renderScriptSelectors();
-    document.getElementById(`script-select-${socio}`).value = this._tpRoteiroAtual[socio];
 
-    // Entra no modo teleprompter
     this.iniciarTeleprompter(socio, texto);
   },
 
@@ -2938,6 +3081,10 @@ const app = {
     const txtEl = document.getElementById(`tp-text-${socio}`);
     txtEl.textContent = texto;
     txtEl.style.fontSize = `${this.tpState[socio].fontSize}rem`;
+
+    // Botão "Marcar Gravado" sempre visível quando o teleprompter está aberto
+    const gravadoBtn = document.getElementById(`tp-gravado-${socio}`);
+    if (gravadoBtn) gravadoBtn.style.display = 'inline-block';
   },
 
   fecharTeleprompter(socio) {
@@ -2953,11 +3100,68 @@ const app = {
     if (ctrl) ctrl.style.display = 'none';
   },
 
+  // Marca o roteiro como gravado → move para Edição (se for ideia) ou apenas fecha
+  marcarComoGravado(socio) {
+    const atual = this._tpRoteiroAtual[socio] || {};
+
+    if (atual.tipo === 'idea') {
+      // Roteiro vindo do Banco de Ideias → move para coluna Edição
+      const idea = this.data.ideas.find(i=>i.id===atual.id);
+      if (!idea) return;
+      if (!confirm(`Marcar "${idea.titulo}" como gravado?\nVai para a coluna ✂️ Edição.`)) return;
+      idea.status = 'edicao';
+      idea.dataGravacao = this.formatDate(new Date());
+      this.save();
+      this.fecharTeleprompter(socio);
+      this.novoRoteiro(socio);
+      this.renderScriptSelectors();
+      this.renderKanban();
+      this.renderDashboard();
+      this.toast('✅ Gravado! Roteiro foi para a fila de Edição');
+      return;
+    }
+
+    if (atual.tipo === 'script') {
+      // Roteiro avulso → cria uma ideia em "Edição" pra entrar no fluxo
+      const s = (this.data.scripts||[]).find(x=>x.id===atual.id);
+      if (!s) return;
+      if (!confirm(`Marcar "${s.titulo}" como gravado?\nVai criar um item em ✂️ Edição no Banco de Ideias.`)) return;
+      this.data.ideas.push({
+        id: this.uid(),
+        titulo: s.titulo,
+        descricao: s.conteudo,
+        tipo: 'roteiro',
+        frente: s.socio,
+        status: 'edicao',
+        dataCriacao: this.formatDate(new Date()),
+        dataGravacao: this.formatDate(new Date()),
+        categoriaConteudo: 'conteudo',
+        perfil: s.socio === 'jenifer' ? 'socio-jenifer' : 'socio-douglas'
+      });
+      // Apaga o avulso porque virou ideia
+      this.data.scripts = (this.data.scripts||[]).filter(x=>x.id!==atual.id);
+      this.save();
+      this.fecharTeleprompter(socio);
+      this.novoRoteiro(socio);
+      this.renderScriptSelectors();
+      this.renderKanban();
+      this.renderDashboard();
+      this.toast('✅ Gravado! Item criado em Edição');
+      return;
+    }
+
+    // Texto solto (não salvo) → pede pra salvar primeiro
+    this.toast('💡 Salve o roteiro primeiro (botão Salvar e Iniciar)');
+  },
+
   apagarRoteiroAtual(socio) {
-    const id = this._tpRoteiroAtual[socio];
-    if (!id) { this.toast('Nada salvo para apagar'); return; }
-    if (!confirm('Apagar este roteiro salvo?')) return;
-    this.data.scripts = (this.data.scripts||[]).filter(s=>s.id!==id);
+    const atual = this._tpRoteiroAtual[socio] || {};
+    if (atual.tipo !== 'script') {
+      this.toast(atual.tipo==='idea' ? 'Roteiros do Banco de Ideias se apagam lá' : 'Nada salvo para apagar');
+      return;
+    }
+    if (!confirm('Apagar este roteiro avulso salvo?')) return;
+    this.data.scripts = (this.data.scripts||[]).filter(s=>s.id!==atual.id);
     this.save();
     this.novoRoteiro(socio);
     this.renderScriptSelectors();
@@ -2975,6 +3179,199 @@ const app = {
   changeFontSize(delta,socio) { const st=this.tpState[socio];st.fontSize=Math.max(0.8,Math.min(4,st.fontSize+delta));const el=document.getElementById(`tp-text-${socio}`);if(el)el.style.fontSize=`${st.fontSize}rem`; },
   toggleFullscreen(cid) { const el=document.getElementById(cid);if(!document.fullscreenElement)el.requestFullscreen().catch(()=>{});else document.exitFullscreen(); },
 
+  /* ── PÁGINA ROTEIROS ── */
+  _rotFiltro: 'all',
+
+  filtroRoteiros(f) {
+    this._rotFiltro = f;
+    document.querySelectorAll('[data-rot-filter]').forEach(b=>b.classList.toggle('active', b.dataset.rotFilter === f));
+    this.renderRoteirosPagina();
+  },
+
+  renderRoteirosPagina() {
+    const filtro = this._rotFiltro || 'all';
+
+    // Ideias com tipo=roteiro nos status 'roteiro' e 'gravar'
+    const ideasRot = this.data.ideas.filter(i =>
+      (i.frente==='jenifer' || i.frente==='douglas') &&
+      i.tipo === 'roteiro' &&
+      (i.status === 'roteiro' || i.status === 'gravar') &&
+      (filtro === 'all' || i.frente === filtro)
+    );
+
+    // Roteiros avulsos (na coleção scripts)
+    const avulsos = (this.data.scripts || []).filter(s =>
+      filtro === 'all' || s.socio === filtro
+    );
+
+    const renderIdeaCard = (idea) => {
+      const socioLabel = idea.frente === 'jenifer' ? '👤 Jenifer' : '👤 Douglas';
+      const conteudo = idea.descricao || '';
+      return `<div class="roteiro-card ${idea.frente}" onclick="app.editarRoteiroIdeia('${idea.id}')">
+        <div class="roteiro-card-meta">
+          <span class="badge badge-${idea.frente}">${socioLabel}</span>
+          ${idea.dataCriacao?`<span style="font-size:0.68rem;color:var(--grafite);">${idea.dataCriacao}</span>`:''}
+        </div>
+        <div class="roteiro-card-title">${idea.titulo || '(sem título)'}</div>
+        ${conteudo ? `<div class="roteiro-card-preview">${conteudo}</div>` : '<div class="roteiro-card-preview" style="font-style:italic;opacity:0.6;">Sem texto ainda — clique para escrever</div>'}
+        <div class="roteiro-card-actions" onclick="event.stopPropagation()">
+          <button onclick="app.editarRoteiroIdeia('${idea.id}')">✏️ Editar</button>
+          <button onclick="app.enviarParaTeleprompter('${idea.id}','idea')">📖 Teleprompter</button>
+          ${idea.status==='roteiro' ? `<button onclick="app.changeIdeaStatus('${idea.id}','gravar');app.renderRoteirosPagina();">🎥 Pronto p/ gravar</button>` : ''}
+        </div>
+      </div>`;
+    };
+
+    const renderAvulsoCard = (s) => {
+      const socioLabel = s.socio === 'jenifer' ? '👤 Jenifer' : '👤 Douglas';
+      return `<div class="roteiro-card ${s.socio}" onclick="app.editarRoteiroPagina('${s.id}')">
+        <div class="roteiro-card-meta">
+          <span class="badge badge-${s.socio}">${socioLabel}</span>
+          <span style="font-size:0.68rem;color:var(--grafite);">📁 avulso</span>
+        </div>
+        <div class="roteiro-card-title">${s.titulo || '(sem título)'}</div>
+        ${s.conteudo ? `<div class="roteiro-card-preview">${s.conteudo}</div>` : ''}
+        <div class="roteiro-card-actions" onclick="event.stopPropagation()">
+          <button onclick="app.editarRoteiroPagina('${s.id}')">✏️ Editar</button>
+          <button onclick="app.enviarParaTeleprompter('${s.id}','script')">📖 Teleprompter</button>
+          <button class="danger" onclick="app.apagarRoteiroPagina('${s.id}')">🗑️</button>
+        </div>
+      </div>`;
+    };
+
+    // Em Roteiro
+    const emRoteiro = ideasRot.filter(i => i.status === 'roteiro');
+    document.getElementById('rot-count-roteiro').textContent = emRoteiro.length;
+    document.getElementById('rot-list-roteiro').innerHTML = emRoteiro.length
+      ? emRoteiro.map(renderIdeaCard).join('')
+      : `<div class="roteiros-empty">Nenhum roteiro em construção</div>`;
+
+    // Para Gravar
+    const paraGravar = ideasRot.filter(i => i.status === 'gravar');
+    document.getElementById('rot-count-gravar').textContent = paraGravar.length;
+    document.getElementById('rot-list-gravar').innerHTML = paraGravar.length
+      ? paraGravar.map(renderIdeaCard).join('')
+      : `<div class="roteiros-empty">Nenhum roteiro pronto para gravar</div>`;
+
+    // Avulsos
+    document.getElementById('rot-count-avulsos').textContent = avulsos.length;
+    document.getElementById('rot-list-avulsos').innerHTML = avulsos.length
+      ? avulsos.map(renderAvulsoCard).join('')
+      : `<div class="roteiros-empty">Nenhum roteiro avulso · use "+ Roteiro" no topo</div>`;
+  },
+
+  novoRoteiroPagina(socio) {
+    document.getElementById('form-roteiro').reset();
+    document.getElementById('roteiro-id').value = '';
+    document.getElementById('roteiro-socio').value = socio;
+    document.getElementById('roteiro-vinculo-ideia').value = '';
+    const nome = socio === 'jenifer' ? 'Jenifer' : 'Douglas';
+    document.getElementById('modal-roteiro-title').textContent = `📝 Novo Roteiro · ${nome}`;
+    document.getElementById('roteiro-submit-btn').textContent = '💾 Salvar';
+    document.getElementById('roteiro-submit-btn').style.background = socio === 'jenifer' ? 'var(--jenifer-cor)' : 'var(--douglas-cor)';
+    this.openModal('modal-roteiro');
+  },
+
+  // Edita um roteiro avulso (da coleção scripts)
+  editarRoteiroPagina(scriptId) {
+    const s = (this.data.scripts || []).find(x => x.id === scriptId);
+    if (!s) return;
+    document.getElementById('roteiro-id').value = s.id;
+    document.getElementById('roteiro-socio').value = s.socio;
+    document.getElementById('roteiro-vinculo-ideia').value = '';
+    document.getElementById('roteiro-titulo').value = s.titulo || '';
+    document.getElementById('roteiro-conteudo').value = s.conteudo || '';
+    const nome = s.socio === 'jenifer' ? 'Jenifer' : 'Douglas';
+    document.getElementById('modal-roteiro-title').textContent = `✏️ Editar Roteiro · ${nome}`;
+    document.getElementById('roteiro-submit-btn').textContent = '💾 Atualizar';
+    document.getElementById('roteiro-submit-btn').style.background = s.socio === 'jenifer' ? 'var(--jenifer-cor)' : 'var(--douglas-cor)';
+    this.openModal('modal-roteiro');
+  },
+
+  // Edita uma ideia tipo roteiro vinda do Banco de Ideias
+  editarRoteiroIdeia(ideaId) {
+    const idea = this.data.ideas.find(i => i.id === ideaId);
+    if (!idea) return;
+    document.getElementById('roteiro-id').value = '';
+    document.getElementById('roteiro-socio').value = idea.frente;
+    document.getElementById('roteiro-vinculo-ideia').value = idea.id;
+    document.getElementById('roteiro-titulo').value = idea.titulo || '';
+    document.getElementById('roteiro-conteudo').value = idea.descricao || '';
+    const nome = idea.frente === 'jenifer' ? 'Jenifer' : 'Douglas';
+    document.getElementById('modal-roteiro-title').textContent = `✏️ Editar Roteiro · ${nome} (do Banco de Ideias)`;
+    document.getElementById('roteiro-submit-btn').textContent = '💾 Atualizar';
+    document.getElementById('roteiro-submit-btn').style.background = idea.frente === 'jenifer' ? 'var(--jenifer-cor)' : 'var(--douglas-cor)';
+    this.openModal('modal-roteiro');
+  },
+
+  salvarRoteiroPagina(e) {
+    e.preventDefault();
+    const id = document.getElementById('roteiro-id').value;
+    const socio = document.getElementById('roteiro-socio').value;
+    const vinculo = document.getElementById('roteiro-vinculo-ideia').value;
+    const titulo = document.getElementById('roteiro-titulo').value.trim();
+    const conteudo = document.getElementById('roteiro-conteudo').value.trim();
+
+    if (vinculo) {
+      // Atualizando uma ideia do Banco de Ideias
+      const idea = this.data.ideas.find(i => i.id === vinculo);
+      if (idea) { idea.titulo = titulo; idea.descricao = conteudo; }
+      this.toast('💾 Roteiro da ideia atualizado!');
+    } else if (id) {
+      // Atualizando roteiro avulso
+      const s = (this.data.scripts || []).find(x => x.id === id);
+      if (s) { s.titulo = titulo; s.conteudo = conteudo; }
+      this.toast('💾 Roteiro atualizado!');
+    } else {
+      // Novo roteiro avulso
+      if (!this.data.scripts) this.data.scripts = [];
+      this.data.scripts.push({ id: this.uid(), titulo, conteudo, socio, dataCriacao: this.formatDate(new Date()) });
+      this.toast('💾 Roteiro salvo!');
+    }
+
+    this.save();
+    this.closeModal('modal-roteiro');
+    this.renderRoteirosPagina();
+    this.renderScriptSelectors();
+    this.renderKanban();
+  },
+
+  apagarRoteiroPagina(scriptId) {
+    if (!confirm('Apagar este roteiro avulso?')) return;
+    this.data.scripts = (this.data.scripts || []).filter(s => s.id !== scriptId);
+    this.save();
+    this.renderRoteirosPagina();
+    this.renderScriptSelectors();
+    this.toast('🗑️ Roteiro apagado');
+  },
+
+  // Vai para o teleprompter já com o roteiro carregado
+  enviarParaTeleprompter(id, tipo) {
+    let socio;
+    if (tipo === 'idea') {
+      const idea = this.data.ideas.find(i => i.id === id);
+      if (!idea) return;
+      socio = idea.frente;
+      this.goTo('teleprompter');
+      this.switchTpTab(socio);
+      // Aguarda render
+      setTimeout(() => {
+        document.getElementById(`script-select-${socio}`).value = `idea_${id}`;
+        this.loadScript(`idea_${id}`, socio);
+      }, 100);
+    } else {
+      const s = (this.data.scripts || []).find(x => x.id === id);
+      if (!s) return;
+      socio = s.socio;
+      this.goTo('teleprompter');
+      this.switchTpTab(socio);
+      setTimeout(() => {
+        document.getElementById(`script-select-${socio}`).value = id;
+        this.loadScript(id, socio);
+      }, 100);
+    }
+  },
+
   /* ── SOCIAL MEDIA ── */
   renderSocialMedia() {
     const base = this.data.ideas.filter(i=>i.frente==='jenifer'||i.frente==='douglas'||i.frente==='agencia');
@@ -2989,8 +3386,8 @@ const app = {
     set('sm-total',base.length); set('sm-bruto',base.filter(i=>i.status==='bruto').length);
     set('sm-gravar',base.filter(i=>i.status==='gravar').length); set('sm-publicado',base.filter(i=>i.status==='publicado').length);
     const tipoArteLabels={'carrossel':'🖼️ Carrossel','reels':'🎬 Reels','story':'📱 Story','feed':'🖼️ Post Feed','video':'🎥 Vídeo','lives':'📡 Lives','destaques':'⭐ Destaques'};
-    const statusLabel={bruto:'Em Criação',roteiro:'Em Roteiro',gravar:'Para Produzir',publicado:'Publicado'};
-    const statusCls={bruto:'bruto',roteiro:'roteiro',gravar:'gravar',publicado:'publicado'};
+    const statusLabel={bruto:'Em Criação',roteiro:'Em Roteiro',gravar:'Para Produzir',edicao:'Edição',publicado:'Publicado'};
+    const statusCls={bruto:'bruto',roteiro:'roteiro',gravar:'gravar',edicao:'edicao',publicado:'publicado'};
     const buildCard=(i,cls)=>`
       <div class="brief-card ${cls}" onclick="app.showBriefDetail('${i.id}')">
         <div class="brief-card-header"><div class="brief-card-title">${i.titulo}</div><span class="brief-status-badge ${statusCls[i.status]||'bruto'}">${statusLabel[i.status]||i.status}</span></div>
@@ -3026,7 +3423,7 @@ const app = {
   },
 
   _smNextStatus(id) {
-    const order=['bruto','roteiro','gravar','publicado'];
+    const order=['bruto','roteiro','gravar','edicao','publicado'];
     const idea=this.data.ideas.find(i=>i.id===id); if(!idea) return;
     const idx=order.indexOf(idea.status);
     if(idx<order.length-1){this.changeIdeaStatus(id,order[idx+1]);this.renderSocialMedia();}
