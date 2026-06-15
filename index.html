@@ -49,96 +49,6 @@
     a { color: var(--roxo); text-decoration: none; }
     a:hover { text-decoration: underline; }
 
-    /* ═══ MEGA-ABAS ═══ */
-    .mega-tabs {
-      background: linear-gradient(135deg, #12082a 0%, #1e0e38 100%);
-      display: flex;
-      align-items: stretch;
-      border-bottom: 2px solid rgba(123,82,160,0.4);
-      position: sticky;
-      top: 0;
-      z-index: 300;
-    }
-    .mega-tab {
-      flex: 1;
-      padding: 14px 24px;
-      font-family: sans-serif;
-      font-size: 0.95rem;
-      font-weight: 700;
-      letter-spacing: 0.04em;
-      color: rgba(192,160,224,0.55);
-      background: transparent;
-      border: none;
-      cursor: pointer;
-      transition: all 0.25s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      border-bottom: 3px solid transparent;
-      margin-bottom: -2px;
-      white-space: nowrap;
-    }
-    .mega-tab:hover { color: var(--roxo-lt); background: rgba(123,82,160,0.12); }
-    .mega-tab.active {
-      color: #fff;
-      border-bottom-color: var(--dourado);
-      background: rgba(123,82,160,0.15);
-    }
-    .mega-tab .mega-tab-icon { font-size: 1.1rem; }
-    .mega-tab .mega-tab-badge {
-      background: var(--dourado);
-      color: #1a0f2e;
-      font-size: 0.6rem;
-      font-weight: 800;
-      padding: 1px 6px;
-      border-radius: 10px;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-    }
-
-    /* ═══ WRAPPER DAS ZONAS ═══ */
-    .zona { display: none; }
-    .zona.active { display: block; }
-
-    /* ═══ IFRAME IA ═══ */
-    .ia-frame-wrapper {
-      width: 100%;
-      height: calc(100vh - 54px);
-      position: relative;
-      background: #f5f3f0;
-    }
-    .ia-frame-wrapper iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-      display: block;
-    }
-    .ia-loading {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      background: linear-gradient(135deg, #1a0f2e 0%, #2d1f40 100%);
-      color: #e2cfff;
-      gap: 16px;
-      z-index: 10;
-      transition: opacity 0.5s;
-    }
-    .ia-loading.hidden { opacity: 0; pointer-events: none; }
-    .ia-loading-spinner {
-      width: 48px; height: 48px;
-      border: 4px solid rgba(192,160,224,0.2);
-      border-top-color: var(--dourado);
-      border-radius: 50%;
-      animation: ia-spin 0.8s linear infinite;
-    }
-    @keyframes ia-spin { to { transform: rotate(360deg); } }
-    .ia-loading-title { font-family: sans-serif; font-size: 1.1rem; font-weight: 700; color: var(--dourado); }
-    .ia-loading-sub { font-family: sans-serif; font-size: 0.82rem; color: rgba(192,160,224,0.7); }
-
     /* ═══ TOPNAV ═══ */
     .topnav {
       background: linear-gradient(135deg, #1e0e38 0%, #2d1f40 100%);
@@ -148,7 +58,7 @@
       height: 54px;
       gap: 4px;
       position: sticky;
-      top: 54px;
+      top: 0;
       z-index: 200;
       box-shadow: 0 2px 14px rgba(45,31,64,0.55);
       border-bottom: 1px solid rgba(192,160,224,0.15);
@@ -196,7 +106,7 @@
     .mobile-menu {
       display: none;
       position: fixed;
-      top: 108px; left: 0; right: 0; bottom: 0;
+      top: 54px; left: 0; right: 0; bottom: 0;
       background: linear-gradient(180deg, #1e0e38 0%, #2d1f40 100%);
       z-index: 199;
       flex-direction: column;
@@ -660,22 +570,6 @@
 </head>
 <body>
 <div id="app">
-
-  <!-- ══ MEGA-ABAS GLOBAIS ══ -->
-  <div class="mega-tabs">
-    <button class="mega-tab active" id="mega-agencia" onclick="app.switchZona('agencia')">
-      <span class="mega-tab-icon">✨</span>
-      <span>Agência</span>
-    </button>
-    <button class="mega-tab" id="mega-ia" onclick="app.switchZona('ia')">
-      <span class="mega-tab-icon">🤖</span>
-      <span>IA Atendimento</span>
-      <span class="mega-tab-badge">NEW</span>
-    </button>
-  </div>
-
-  <!-- ══ ZONA: AGÊNCIA (app completo) ══ -->
-  <div class="zona active" id="zona-agencia">
 
   <!-- TOPNAV -->
   <nav class="topnav">
@@ -2784,23 +2678,6 @@ const app = {
   toggleMobileMenu() { document.getElementById('mobile-menu')?.classList.toggle('open'); },
   closeMobileMenu()  { document.getElementById('mobile-menu')?.classList.remove('open'); },
 
-  /* ── MEGA-ABAS ── */
-  switchZona(zona) {
-    // Atualizar abas
-    document.querySelectorAll('.mega-tab').forEach(t => t.classList.remove('active'));
-    document.getElementById(`mega-${zona}`)?.classList.add('active');
-    // Mostrar zona
-    document.querySelectorAll('.zona').forEach(z => z.classList.remove('active'));
-    document.getElementById(`zona-${zona}`)?.classList.add('active');
-    // Lazy load do iframe ao abrir IA pela primeira vez
-    if (zona === 'ia') {
-      const iframe = document.getElementById('ia-iframe');
-      if (iframe && !iframe.src) {
-        iframe.src = iframe.dataset.src;
-      }
-    }
-  },
-
   filterByFrente(f) {
     this.currentFilter = f;
     document.querySelectorAll('.filter-btn').forEach(b => b.classList.toggle('active', b.dataset.filter === f));
@@ -4850,28 +4727,5 @@ const app = {
 
 document.addEventListener('DOMContentLoaded', () => app.init());
 </script>
-
-  </div><!-- /zona-agencia -->
-
-  <!-- ══ ZONA: IA ATENDIMENTO ══ -->
-  <div class="zona" id="zona-ia">
-    <div class="ia-frame-wrapper">
-      <div class="ia-loading" id="ia-loading">
-        <div class="ia-loading-spinner"></div>
-        <div class="ia-loading-title">🤖 IA Atendimento</div>
-        <div class="ia-loading-sub">Carregando central de prompts jurídicos…</div>
-      </div>
-      <iframe
-        id="ia-iframe"
-        src=""
-        data-src="ia-atendimento.html"
-        title="IA Atendimento — LexAura"
-        onload="document.getElementById('ia-loading').classList.add('hidden')"
-        sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
-      ></iframe>
-    </div>
-  </div><!-- /zona-ia -->
-
-</div><!-- /app -->
 </body>
 </html>
