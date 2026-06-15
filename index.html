@@ -2147,6 +2147,14 @@
         </div>
         <label>Link (opcional)</label>
         <input type="url" id="idea-link" placeholder="https://...">
+        <!-- Bloco específico para Roteiro (tipo = roteiro) -->
+        <div id="roteiro-fields-group" style="display:none;background:rgba(196,169,107,0.06);border:1.5px solid rgba(196,169,107,0.3);border-radius:10px;padding:14px 16px;margin-top:10px;">
+          <div style="font-family:sans-serif;font-size:0.82rem;font-weight:700;color:var(--dourado-dk);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:10px;">📄 Roteiro · será usado no Teleprompter</div>
+          <label style="margin-bottom:5px;display:block;">Roteiro completo</label>
+          <textarea id="idea-roteiro-texto" placeholder="Escreva ou cole aqui o roteiro completo que vai aparecer no teleprompter..." style="min-height:180px;width:100%;font-family:'Georgia',serif;font-size:0.95rem;line-height:1.6;"></textarea>
+          <div style="font-size:0.72rem;color:var(--grafite);font-family:sans-serif;margin-top:6px;">💡 Dica: ao mover esta ideia para 🎥 Para Gravar, o roteiro aparece automaticamente no Teleprompter</div>
+        </div>
+
         <!-- Brief Social Media -->
         <div class="brief-fields" id="brief-fields-group">
           <legend>📋 Briefing de Conteúdo — Social Media</legend>
@@ -2199,6 +2207,10 @@
             <div class="brief-row full">
               <label style="margin-bottom:5px;display:block;">Legenda completa do Reels</label>
               <textarea id="idea-reels-legenda" placeholder="Legenda completa para postar no Reels — com call to action, perguntas, hashtags..." style="min-height:100px;width:100%;"></textarea>
+            </div>
+            <div class="brief-row full" style="background:rgba(196,169,107,0.08);border-left:3px solid var(--dourado);padding:10px 12px;border-radius:6px;margin-top:6px;">
+              <label style="margin-bottom:5px;display:block;color:var(--dourado-dk);font-weight:700;">📄 Roteiro completo · será usado no Teleprompter</label>
+              <textarea id="idea-reels-roteiro" placeholder="Escreva ou cole aqui o roteiro completo que vai aparecer no teleprompter..." style="min-height:160px;width:100%;font-family:'Georgia',serif;font-size:0.95rem;line-height:1.6;"></textarea>
             </div>
           </div>
         </div>
@@ -2424,8 +2436,19 @@ const app = {
     const frenteEl = document.getElementById('idea-frente');
     if (frenteEl) frenteEl.addEventListener('change', () => this._toggleBriefFields(frenteEl.value));
 
+    const tipoEl = document.getElementById('idea-tipo');
+    if (tipoEl) tipoEl.addEventListener('change', () => this._toggleBriefFields(document.getElementById('idea-frente').value));
+
     const tipoArteEl = document.getElementById('idea-tipo-arte');
     if (tipoArteEl) tipoArteEl.addEventListener('change', () => this._toggleReelsFields());
+
+    // Sincronizar os 2 campos de roteiro (principal e dentro do Reels)
+    const rotPrinc = document.getElementById('idea-roteiro-texto');
+    const rotReels = document.getElementById('idea-reels-roteiro');
+    if (rotPrinc && rotReels) {
+      rotPrinc.addEventListener('input', () => { rotReels.value = rotPrinc.value; });
+      rotReels.addEventListener('input', () => { rotPrinc.value = rotReels.value; });
+    }
 
     document.getElementById('btn-new-idea')?.addEventListener('click', () => {
       document.getElementById('form-idea').reset();
@@ -2689,8 +2712,52 @@ const app = {
       ${idea.descricao?`<div class="idea-detail-desc">${idea.descricao}</div>`:''}
       ${idea.link?`<div class="idea-detail-field"><div class="idea-detail-field-label">Link</div><div class="idea-detail-field-value"><a href="${idea.link}" target="_blank">${idea.link}</a></div></div>`:''}
       <div class="idea-detail-field"><div class="idea-detail-field-label">Criada em</div><div class="idea-detail-field-value">${idea.dataCriacao||'—'}</div></div>
-      <div class="idea-detail-status-row">${statuses.map(s=>`<button class="status-btn ${idea.status===s.key?'active':''}" onclick="app.changeIdeaStatus('${idea.id}','${s.key}')">${s.label}</button>`).join('')}</div>`;
+      ${idea.dataGravacao?`<div class="idea-detail-field"><div class="idea-detail-field-label">Gravada em</div><div class="idea-detail-field-value" style="color:var(--verde);font-weight:700;">✅ ${idea.dataGravacao}</div></div>`:''}
+
+      ${idea.status === 'gravar' ? `
+        <div style="background:rgba(58,112,64,0.06);border:1.5px solid rgba(58,112,64,0.25);border-radius:10px;padding:14px;margin-top:14px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+          <div style="flex:1;min-width:180px;">
+            <div style="font-weight:700;color:var(--verde);font-size:0.9rem;">🎥 Esta ideia está pronta para gravar</div>
+            <div style="font-size:0.78rem;color:var(--grafite);font-family:sans-serif;margin-top:2px;">Acesse o teleprompter ou marque como gravado quando concluir</div>
+          </div>
+          <button class="btn-primary" style="background:var(--agencia-cor);" onclick="app.abrirTeleprompterDaIdeia('${idea.id}')">📖 Teleprompter</button>
+          <button class="btn-primary" style="background:var(--verde);" onclick="app.gravadoDoDetalhe('${idea.id}')">✅ Marcar como Gravado</button>
+        </div>
+      ` : ''}
+
+      <div class="idea-detail-status-row" style="margin-top:14px;">${statuses.map(s=>`<button class="status-btn ${idea.status===s.key?'active':''}" onclick="app.changeIdeaStatus('${idea.id}','${s.key}')">${s.label}</button>`).join('')}</div>`;
     this.openModal('modal-idea-detail');
+  },
+
+  // Atalho: marcar como gravado direto do modal de detalhes da ideia
+  gravadoDoDetalhe(id) {
+    const idea = this.data.ideas.find(i=>i.id===id);
+    if (!idea) return;
+    if (!confirm(`Marcar "${idea.titulo}" como gravado?\nVai para a coluna ✂️ Edição.`)) return;
+    idea.status = 'edicao';
+    idea.dataGravacao = this.formatDate(new Date());
+    this.save();
+    this.closeModal('modal-idea-detail');
+    this.renderKanban();
+    this.renderDashboard();
+    if (document.getElementById('roteiros')?.classList.contains('active')) this.renderRoteirosPagina();
+    this.toast('✅ Gravado! Foi para a fila de Edição');
+  },
+
+  // Atalho: abrir teleprompter direto do modal de detalhes
+  abrirTeleprompterDaIdeia(id) {
+    const idea = this.data.ideas.find(i=>i.id===id);
+    if (!idea) return;
+    this.closeModal('modal-idea-detail');
+    this.goTo('teleprompter');
+    this.switchTpTab(idea.frente);
+    setTimeout(() => {
+      const sel = document.getElementById(`script-select-${idea.frente}`);
+      if (sel) {
+        sel.value = `idea_${id}`;
+        this.loadScript(`idea_${id}`, idea.frente);
+      }
+    }, 100);
   },
 
   changeIdeaStatus(id, newStatus) {
@@ -2739,6 +2806,9 @@ const app = {
     document.getElementById('idea-legenda').value   = idea.legenda   || '';
     document.getElementById('idea-reels-capa').value    = idea.reelsCapa    || '';
     document.getElementById('idea-reels-legenda').value = idea.reelsLegenda || '';
+    const roteiroVal = idea.roteiroTexto || (idea.tipo==='roteiro' ? (idea.descricao||'') : '');
+    document.getElementById('idea-roteiro-texto').value  = roteiroVal;
+    document.getElementById('idea-reels-roteiro').value  = roteiroVal;
     document.getElementById('idea-categoria').value  = idea.categoria  || '';
     document.getElementById('idea-responsavel').value= idea.responsavel|| '';
     document.getElementById('idea-impacto').value    = idea.impacto    || '';
@@ -2751,11 +2821,21 @@ const app = {
     const g   = document.getElementById('brief-fields-group');
     const gs  = document.getElementById('socios-fields-group');
     const ccg = document.getElementById('categoria-conteudo-group');
-    const isSM     = frente === 'jenifer' || frente === 'douglas' || frente === 'agencia';
+    const tipo = document.getElementById('idea-tipo')?.value || '';
+
+    const isSM     = (frente === 'jenifer' || frente === 'douglas' || frente === 'agencia');
     const isSocios = frente === 'socios-la';
-    if (g)   g.classList.toggle('visible', isSM);
+    const isRoteiro = tipo === 'roteiro';
+
+    // Quando é roteiro, NÃO mostra o briefing completo (só o bloco roteiro)
+    if (g)   g.classList.toggle('visible', isSM && !isRoteiro);
     if (gs)  gs.classList.toggle('visible', isSocios);
-    if (ccg) ccg.style.display = isSM ? 'block' : 'none';
+    if (ccg) ccg.style.display = (isSM && !isRoteiro) ? 'block' : 'none';
+
+    // Bloco específico de roteiro (campo grande pro texto do teleprompter)
+    const roteiroBox = document.getElementById('roteiro-fields-group');
+    if (roteiroBox) roteiroBox.style.display = (isSM && isRoteiro) ? 'block' : 'none';
+
     const perfilEl = document.getElementById('idea-perfil');
     if (perfilEl && !perfilEl.value) {
       if (frente === 'jenifer') perfilEl.value = 'socio-jenifer';
@@ -2804,10 +2884,17 @@ const app = {
       legenda:     document.getElementById('idea-legenda').value.trim()  || null,
       reelsCapa:    document.getElementById('idea-reels-capa').value.trim()    || null,
       reelsLegenda: document.getElementById('idea-reels-legenda').value.trim() || null,
+      // Roteiro pode vir de 2 campos diferentes (bloco principal ou bloco Reels) — usamos o que tem conteúdo
+      roteiroTexto: (document.getElementById('idea-roteiro-texto').value.trim() || document.getElementById('idea-reels-roteiro').value.trim()) || null,
       categoria:   document.getElementById('idea-categoria').value    || null,
       responsavel: document.getElementById('idea-responsavel').value  || null,
       impacto:     document.getElementById('idea-impacto').value.trim() || null,
     };
+    // Quando é roteiro, o texto do roteiro vai também para descricao (usado pelo teleprompter)
+    if (idea.tipo === 'roteiro' && idea.roteiroTexto) {
+      idea.descricao = idea.roteiroTexto;
+    }
+
     if (existingId) {
       const idx = this.data.ideas.findIndex(i => i.id === existingId);
       if (idx >= 0) { idea.status = this.data.ideas[idx].status; idea.dataPublicacao = this.data.ideas[idx].dataPublicacao; this.data.ideas[idx] = idea; }
