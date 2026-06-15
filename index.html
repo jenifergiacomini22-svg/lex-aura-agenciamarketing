@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#0f0f0f">
+  <meta name="theme-color" content="#2d1f40">
   <title>✨ Lex Aura App</title>
   <style>
     :root {
@@ -51,7 +51,7 @@
 
     /* ═══ TOPNAV ═══ */
     .topnav {
-      background: var(--preto);
+      background: linear-gradient(135deg, #1e0e38 0%, #2d1f40 100%);
       display: flex;
       align-items: center;
       padding: 0 24px;
@@ -60,7 +60,8 @@
       position: sticky;
       top: 0;
       z-index: 200;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+      box-shadow: 0 2px 14px rgba(45,31,64,0.55);
+      border-bottom: 1px solid rgba(192,160,224,0.15);
     }
     .topnav-logo {
       color: var(--roxo-lt);
@@ -106,7 +107,7 @@
       display: none;
       position: fixed;
       top: 54px; left: 0; right: 0; bottom: 0;
-      background: var(--preto);
+      background: linear-gradient(180deg, #1e0e38 0%, #2d1f40 100%);
       z-index: 199;
       flex-direction: column;
       padding: 16px;
@@ -443,7 +444,7 @@
     .roteiros-empty { text-align: center; padding: 24px; color: var(--grafite); font-family: sans-serif; font-size: 0.85rem; background: var(--off-white); border-radius: 8px; border: 2px dashed var(--cinza); grid-column: 1/-1; }
 
     /* ═══ RASCUNHO ═══ */
-    .rascunho-capture { background: var(--preto); border-radius: var(--radius); padding: 20px; margin-bottom: 24px; box-shadow: 0 4px 24px rgba(0,0,0,0.18); border: 1.5px solid rgba(123,82,160,0.3); }
+    .rascunho-capture { background: linear-gradient(135deg,#1e0e38 0%,#2d1f40 100%); border-radius: var(--radius); padding: 20px; margin-bottom: 24px; box-shadow: 0 4px 24px rgba(0,0,0,0.18); border: 1.5px solid rgba(123,82,160,0.3); }
     .rascunho-capture textarea { width: 100%; background: transparent; border: none; outline: none; color: #fff; font-size: 1.15rem; font-family: 'Georgia', serif; line-height: 1.7; resize: none; min-height: 80px; }
     .rascunho-capture textarea::placeholder { color: rgba(255,255,255,0.3); }
     .rascunho-capture-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.1); flex-wrap: wrap; gap: 8px; }
@@ -585,6 +586,7 @@
     <button class="topnav-link topnav-socios" data-screen="socios">🤝 Sócios</button>
     <div style="width:1px;background:rgba(255,255,255,0.15);height:24px;margin:0 6px;"></div>
     <button class="topnav-link" data-screen="rascunho" style="color:rgba(255,220,100,0.9);">⚡ Rascunho</button>
+    <button class="topnav-link" data-screen="como-usar" style="color:rgba(192,160,224,0.75);font-size:0.8rem;">❓ Como Usar</button>
     <button class="topnav-hamburger" id="hamburger-btn" onclick="app.toggleMobileMenu()" aria-label="Menu">
       <span></span><span></span><span></span>
     </button>
@@ -604,6 +606,7 @@
     <button class="topnav-link topnav-socios" data-screen="socios" onclick="app.goTo('socios');app.closeMobileMenu()">🤝 Sócios</button>
     <div class="mobile-menu-divider"></div>
     <button class="topnav-link" data-screen="rascunho" onclick="app.goTo('rascunho');app.closeMobileMenu()" style="color:rgba(255,220,100,0.9);">⚡ Rascunho Rápido</button>
+    <button class="topnav-link" data-screen="como-usar" onclick="app.goTo('como-usar');app.closeMobileMenu()" style="color:rgba(192,160,224,0.75);">❓ Como Usar</button>
   </div>
 
   <main>
@@ -861,6 +864,116 @@
     </section>
 
 
+  <!-- ══ COMO USAR ══ -->
+  <section id="como-usar" class="screen" style="background:#F2EDE8;">
+    <div class="app-container" style="max-width:860px;">
+      <div style="background:linear-gradient(135deg,#1a0f2e 0%,#2d1f40 100%);border-radius:14px;padding:28px 32px;margin-bottom:32px;color:#e2cfff;">
+        <h1 style="font-size:1.7rem;margin-bottom:6px;">❓ Como Usar o Lex Aura App</h1>
+        <p style="opacity:0.8;font-size:0.9rem;">Guia rápido da lógica do sistema · do cadastro ao conteúdo publicado</p>
+      </div>
+
+      <!-- FLUXO GERAL -->
+      <div style="background:#fff;border-radius:14px;padding:24px 28px;box-shadow:0 2px 16px rgba(0,0,0,0.07);margin-bottom:20px;">
+        <div style="font-family:sans-serif;font-size:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:0.07em;color:var(--agencia-cor);margin-bottom:16px;">🔄 O Fluxo do Conteúdo</div>
+        <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:16px;">
+          <div style="background:rgba(123,82,160,0.1);border-radius:8px;padding:10px 16px;font-family:sans-serif;font-size:0.85rem;font-weight:700;color:var(--agencia-cor);">💡 Ideia</div>
+          <div style="color:var(--grafite);font-size:1.2rem;">→</div>
+          <div style="background:rgba(74,144,217,0.1);border-radius:8px;padding:10px 16px;font-family:sans-serif;font-size:0.85rem;font-weight:700;color:var(--douglas-cor);">✍️ Roteiro</div>
+          <div style="color:var(--grafite);font-size:1.2rem;">→</div>
+          <div style="background:rgba(58,112,64,0.1);border-radius:8px;padding:10px 16px;font-family:sans-serif;font-size:0.85rem;font-weight:700;color:var(--verde);">🎥 Para Gravar</div>
+          <div style="color:var(--grafite);font-size:1.2rem;">→</div>
+          <div style="background:rgba(196,169,107,0.15);border-radius:8px;padding:10px 16px;font-family:sans-serif;font-size:0.85rem;font-weight:700;color:var(--dourado-dk);">✂️ Edição</div>
+          <div style="color:var(--grafite);font-size:1.2rem;">→</div>
+          <div style="background:rgba(123,82,160,0.15);border-radius:8px;padding:10px 16px;font-family:sans-serif;font-size:0.85rem;font-weight:700;color:var(--agencia-cor);">✅ Publicado</div>
+        </div>
+        <p style="font-size:0.88rem;color:var(--grafite);font-family:sans-serif;line-height:1.6;">Cada conteúdo nasce como uma <strong>Ideia</strong> no banco de ideias (aba 💡 Ideias). Ao longo do processo, ela avança pelas colunas do Kanban até ser publicada.</p>
+      </div>
+
+      <!-- CADASTRO DE IDEIA -->
+      <div style="background:#fff;border-radius:14px;padding:24px 28px;box-shadow:0 2px 16px rgba(0,0,0,0.07);margin-bottom:20px;">
+        <div style="font-family:sans-serif;font-size:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:0.07em;color:var(--agencia-cor);margin-bottom:16px;">💡 Como Cadastrar uma Ideia</div>
+        <ol style="font-family:sans-serif;font-size:0.88rem;color:var(--grafite-dk);line-height:1.8;padding-left:20px;">
+          <li>Vá até <strong>💡 Ideias</strong> no menu e clique em <strong>+ Nova Ideia</strong></li>
+          <li>Preencha o <strong>Título</strong> — seja direto e descritivo</li>
+          <li>Escolha o <strong>Tipo</strong>:
+            <ul style="margin-top:6px;margin-bottom:6px;">
+              <li><strong>Insight</strong> — observação ou reflexão (sem formato definido)</li>
+              <li><strong>Link</strong> — referência externa para estudar</li>
+              <li><strong>Print/Referência</strong> — inspiração visual</li>
+              <li><strong>Roteiro</strong> — conteúdo planejado para gravar (abre campo de roteiro)</li>
+              <li><strong>Conteúdo → Social Media</strong> — brief completo para a equipe de produção</li>
+            </ul>
+          </li>
+          <li>Escolha a <strong>Frente</strong>: Lex Aura, Jenifer ou Douglas</li>
+          <li>Se for <strong>Roteiro</strong>: escreva o roteiro completo no campo que aparece — esse texto vai direto no Teleprompter na hora de gravar</li>
+          <li>Se for <strong>Conteúdo Social Media</strong> do tipo <strong>Reels/Vídeo</strong>: preencha Capa, Legenda e Roteiro nos campos destacados</li>
+          <li>Salve — a ideia aparece no Kanban na coluna <strong>Em Bruto</strong></li>
+        </ol>
+      </div>
+
+      <!-- KANBAN -->
+      <div style="background:#fff;border-radius:14px;padding:24px 28px;box-shadow:0 2px 16px rgba(0,0,0,0.07);margin-bottom:20px;">
+        <div style="font-family:sans-serif;font-size:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:0.07em;color:var(--agencia-cor);margin-bottom:16px;">📋 O Kanban — Colunas e Significados</div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div style="display:flex;gap:12px;align-items:flex-start;padding:12px;background:rgba(107,104,104,0.06);border-radius:8px;border-left:3px solid var(--grafite);">
+            <div style="min-width:110px;font-family:sans-serif;font-size:0.78rem;font-weight:800;color:var(--grafite);">👆 Em Bruto</div>
+            <div style="font-family:sans-serif;font-size:0.85rem;color:var(--grafite-dk);line-height:1.5;">Ideia recém cadastrada. Ainda sem forma definida. Aqui ficam os insights soltos, referências e ideias em estado bruto.</div>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start;padding:12px;background:rgba(123,82,160,0.06);border-radius:8px;border-left:3px solid var(--agencia-cor);">
+            <div style="min-width:110px;font-family:sans-serif;font-size:0.78rem;font-weight:800;color:var(--agencia-cor);">✍️ Em Roteiro</div>
+            <div style="font-family:sans-serif;font-size:0.85rem;color:var(--grafite-dk);line-height:1.5;">O conteúdo está sendo escrito. Use a aba <strong>📝 Roteiros</strong> para escrever e revisar o texto completo.</div>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start;padding:12px;background:rgba(58,112,64,0.07);border-radius:8px;border-left:3px solid var(--verde);">
+            <div style="min-width:110px;font-family:sans-serif;font-size:0.78rem;font-weight:800;color:var(--verde);">🎥 Para Gravar</div>
+            <div style="font-family:sans-serif;font-size:0.85rem;color:var(--grafite-dk);line-height:1.5;">Roteiro aprovado, pronto para filmar. Ao abrir o Teleprompter, as ideias desta coluna aparecem automaticamente na lista de seleção.</div>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start;padding:12px;background:rgba(196,169,107,0.1);border-radius:8px;border-left:3px solid var(--dourado);">
+            <div style="min-width:110px;font-family:sans-serif;font-size:0.78rem;font-weight:800;color:var(--dourado-dk);">✂️ Edição</div>
+            <div style="font-family:sans-serif;font-size:0.85rem;color:var(--grafite-dk);line-height:1.5;">Gravação feita. Ao clicar "Marcar como Gravado" no Teleprompter, a ideia vem automaticamente para cá. Aguarda edição.</div>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start;padding:12px;background:rgba(58,112,64,0.1);border-radius:8px;border-left:3px solid var(--verde);">
+            <div style="min-width:110px;font-family:sans-serif;font-size:0.78rem;font-weight:800;color:var(--verde);">✅ Publicado</div>
+            <div style="font-family:sans-serif;font-size:0.85rem;color:var(--grafite-dk);line-height:1.5;">Conteúdo publicado nas redes. Contabilizado nas métricas do Dashboard e do Planejamento mensal.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TELEPROMPTER -->
+      <div style="background:#fff;border-radius:14px;padding:24px 28px;box-shadow:0 2px 16px rgba(0,0,0,0.07);margin-bottom:20px;">
+        <div style="font-family:sans-serif;font-size:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:0.07em;color:var(--agencia-cor);margin-bottom:16px;">📖 Como Usar o Teleprompter</div>
+        <ol style="font-family:sans-serif;font-size:0.88rem;color:var(--grafite-dk);line-height:1.9;padding-left:20px;">
+          <li>Vá até <strong>📖 Teleprompter</strong> no menu</li>
+          <li>No dropdown, selecione a ideia que vai gravar — só aparecem as ideias em <strong>🎥 Para Gravar</strong></li>
+          <li>O roteiro carrega automaticamente. Ajuste velocidade e tamanho da fonte se precisar</li>
+          <li>Clique em <strong>💾 Salvar e Iniciar ▶</strong> para começar</li>
+          <li>Após gravar, clique em <strong>✅ Marcar como Gravado</strong> — a ideia migra para a coluna <strong>✂️ Edição</strong> automaticamente</li>
+        </ol>
+        <div style="background:rgba(196,169,107,0.1);border-left:3px solid var(--dourado);padding:10px 14px;border-radius:6px;margin-top:14px;font-family:sans-serif;font-size:0.83rem;color:var(--dourado-dk);">
+          💡 <strong>Dica:</strong> Você também pode criar um roteiro avulso direto no Teleprompter, sem precisar de uma ideia cadastrada — útil para conteúdos espontâneos.
+        </div>
+      </div>
+
+      <!-- PERFIS -->
+      <div style="background:#fff;border-radius:14px;padding:24px 28px;box-shadow:0 2px 16px rgba(0,0,0,0.07);margin-bottom:20px;">
+        <div style="font-family:sans-serif;font-size:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:0.07em;color:var(--agencia-cor);margin-bottom:16px;">👥 Os Perfis e Frentes</div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;">
+          <div style="flex:1;min-width:180px;padding:16px;background:rgba(196,169,107,0.1);border-radius:10px;border-top:3px solid var(--dourado);">
+            <div style="font-weight:800;font-family:sans-serif;font-size:0.88rem;color:var(--dourado-dk);margin-bottom:6px;">👤 Jenifer Giacomini</div>
+            <div style="font-size:0.82rem;color:var(--grafite);font-family:sans-serif;line-height:1.5;">Perfil pessoal da sócia. Conteúdo jurídico e pessoal.</div>
+          </div>
+          <div style="flex:1;min-width:180px;padding:16px;background:rgba(74,144,217,0.08);border-radius:10px;border-top:3px solid var(--douglas-cor);">
+            <div style="font-weight:800;font-family:sans-serif;font-size:0.88rem;color:var(--douglas-cor);margin-bottom:6px;">👤 Douglas de Oliveira</div>
+            <div style="font-size:0.82rem;color:var(--grafite);font-family:sans-serif;line-height:1.5;">Sócio de conteúdo. Responsável pelo fluxo de assessoria.</div>
+          </div>
+          <div style="flex:1;min-width:180px;padding:16px;background:rgba(123,82,160,0.08);border-radius:10px;border-top:3px solid var(--agencia-cor);">
+            <div style="font-weight:800;font-family:sans-serif;font-size:0.88rem;color:var(--agencia-cor);margin-bottom:6px;">✨ Lex Aura — Agência</div>
+            <div style="font-size:0.82rem;color:var(--grafite);font-family:sans-serif;line-height:1.5;">Perfil institucional da agência. Briefs da equipe de produção.</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
 
 
   <!-- ══ SOCIAL MEDIA ══ -->
@@ -2198,19 +2311,30 @@
           </div>
 
           <!-- Campos específicos para Reels/Vídeo -->
-          <div id="reels-fields-group" style="display:none;background:rgba(123,82,160,0.04);border:1px dashed rgba(123,82,160,0.25);border-radius:8px;padding:12px;margin-top:8px;">
-            <div style="font-family:sans-serif;font-size:0.75rem;font-weight:700;color:var(--agencia-cor);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:10px;">🎬 Detalhes do Reels / Vídeo</div>
-            <div class="brief-row full">
-              <label style="margin-bottom:5px;display:block;">Título da capa (chamada na capa do Reels)</label>
-              <input type="text" id="idea-reels-capa" placeholder="Ex: VOCÊ ESTÁ PERDENDO DINHEIRO ASSIM" style="width:100%;">
+          <div id="reels-fields-group" style="display:none;background:rgba(123,82,160,0.05);border:1.5px solid rgba(123,82,160,0.22);border-radius:12px;padding:18px;margin-top:12px;display:none;">
+            <div style="font-family:sans-serif;font-size:0.8rem;font-weight:800;color:var(--agencia-cor);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:16px;display:flex;align-items:center;gap:8px;">
+              <span>🎬</span><span>Detalhes do Reels / Vídeo</span>
             </div>
-            <div class="brief-row full">
-              <label style="margin-bottom:5px;display:block;">Legenda completa do Reels</label>
-              <textarea id="idea-reels-legenda" placeholder="Legenda completa para postar no Reels — com call to action, perguntas, hashtags..." style="min-height:100px;width:100%;"></textarea>
+
+            <!-- CAPA -->
+            <div style="margin-bottom:16px;">
+              <div style="font-family:sans-serif;font-size:0.72rem;font-weight:800;color:var(--agencia-cor);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">📌 Capa do Reels</div>
+              <div style="font-size:0.75rem;color:var(--grafite);font-family:sans-serif;margin-bottom:6px;">Chamada principal que aparece na capa — curta, impactante, em caixa alta</div>
+              <input type="text" id="idea-reels-capa" placeholder="Ex: VOCÊ ESTÁ PERDENDO DINHEIRO ASSIM" style="width:100%;padding:10px 12px;border:1.5px solid rgba(123,82,160,0.25);border-radius:8px;font-size:0.95rem;font-family:sans-serif;background:#fff;">
             </div>
-            <div class="brief-row full" style="background:rgba(196,169,107,0.08);border-left:3px solid var(--dourado);padding:10px 12px;border-radius:6px;margin-top:6px;">
-              <label style="margin-bottom:5px;display:block;color:var(--dourado-dk);font-weight:700;">📄 Roteiro completo · será usado no Teleprompter</label>
-              <textarea id="idea-reels-roteiro" placeholder="Escreva ou cole aqui o roteiro completo que vai aparecer no teleprompter..." style="min-height:160px;width:100%;font-family:'Georgia',serif;font-size:0.95rem;line-height:1.6;"></textarea>
+
+            <!-- LEGENDA -->
+            <div style="margin-bottom:16px;">
+              <div style="font-family:sans-serif;font-size:0.72rem;font-weight:800;color:var(--agencia-cor);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">✍️ Legenda do Post</div>
+              <div style="font-size:0.75rem;color:var(--grafite);font-family:sans-serif;margin-bottom:6px;">Texto completo para publicar — inclua call to action, perguntas e hashtags</div>
+              <textarea id="idea-reels-legenda" placeholder="Ex: Você sabia que a maioria das pessoas ignora este direito?&#10;&#10;Comenta QUERO SABER que eu te explico tudo 👇&#10;&#10;#direito #advogada #dicas" style="min-height:120px;width:100%;padding:10px 12px;border:1.5px solid rgba(123,82,160,0.25);border-radius:8px;font-size:0.9rem;font-family:sans-serif;resize:vertical;line-height:1.5;background:#fff;"></textarea>
+            </div>
+
+            <!-- ROTEIRO -->
+            <div style="background:rgba(196,169,107,0.09);border:1.5px solid rgba(196,169,107,0.35);border-radius:10px;padding:14px 16px;">
+              <div style="font-family:sans-serif;font-size:0.72rem;font-weight:800;color:var(--dourado-dk);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:4px;">🎙️ Roteiro Completo · Teleprompter</div>
+              <div style="font-size:0.75rem;color:var(--grafite);font-family:sans-serif;margin-bottom:10px;">O que você vai falar no vídeo — palavra por palavra. Vai aparecer no Teleprompter na hora de gravar.</div>
+              <textarea id="idea-reels-roteiro" placeholder="Escreva ou cole aqui o roteiro completo que vai aparecer no teleprompter..." style="min-height:180px;width:100%;font-family:'Georgia',serif;font-size:0.95rem;line-height:1.7;padding:10px 12px;border:1.5px solid rgba(196,169,107,0.3);border-radius:8px;background:#fff;resize:vertical;"></textarea>
             </div>
           </div>
         </div>
