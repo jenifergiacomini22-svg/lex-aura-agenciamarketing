@@ -44,7 +44,6 @@
       font-size: 15px;
     }
     #app { display: flex; min-height: 100vh; background: var(--bege); }
-    main { background: var(--bege); }
 
     /* ═══ NAV-SIDEBAR ÚNICA ═══ */
     .nav-sidebar {
@@ -143,13 +142,10 @@
     a:hover { text-decoration: underline; }
 
     /* ═══ WRAPPER DAS ZONAS ═══ */
+    .conteudo-wrapper { flex: 1; min-width: 0; }
     .zona { display: none; }
     .zona.active { display: block; }
-    #zona-agencia { display: none; flex-direction: row; min-height: 100vh; flex: 1; }
-    #zona-agencia.active { display: flex !important; }
-    #zona-agencia .app-main { flex: 1; min-width: 0; background: var(--bege); overflow-x: hidden; }
-
-    /* ═══ IA EMBUTIDA ═══ */
+    .app-main { background: var(--bege); overflow-x: hidden; }
     .ia-zona-wrapper { width: 100%; min-height: 100vh; }
 
     /* ═══ COLAB HEADERS ═══ */
@@ -605,17 +601,13 @@
 <body>
 <div id="app">
 
-  <!-- ══ ZONA: AGÊNCIA (app completo) ══ -->
-  <div class="zona active" id="zona-agencia">
-
-  <!-- NAV SIDEBAR ÚNICA -->
+  <!-- ══ NAV SIDEBAR ÚNICA (sempre visível) ══ -->
   <nav class="nav-sidebar" id="nav-sidebar">
     <div class="nav-sidebar-logo">✨ Lex Aura</div>
 
-    <!-- Seletor de zona -->
     <div class="zona-switcher">
-      <button class="zona-btn active" id="mega-agencia" onclick="app.switchZona('agencia')" title="Agência">✨ Agência</button>
-      <button class="zona-btn" id="mega-ia" onclick="app.switchZona('ia')" title="IA Atendimento">🤖 IA <span class="zona-badge">NEW</span></button>
+      <button class="zona-btn active" id="mega-agencia" onclick="app.switchZona('agencia')">✨ Agência</button>
+      <button class="zona-btn" id="mega-ia" onclick="app.switchZona('ia')">🤖 IA <span class="zona-badge">NEW</span></button>
     </div>
 
     <div class="nav-divider"></div>
@@ -638,8 +630,10 @@
     <button class="nav-link como-usar" data-screen="como-usar">❓ Como Usar</button>
   </nav>
 
-  <!-- Overlay mobile -->
   <div class="nav-drawer-overlay" id="nav-overlay" onclick="app.closeMobileMenu()"></div>
+
+  <!-- ══ ÁREA DE CONTEÚDO ══ -->
+  <div class="conteudo-wrapper">
 
   <!-- Hamburguer mobile -->
   <button class="nav-hamburger" id="hamburger-btn" onclick="app.toggleMobileMenu()">
@@ -647,6 +641,8 @@
     <span style="font-size:0.85rem;font-weight:700;margin-left:4px;">Menu</span>
   </button>
 
+  <!-- ══ ZONA AGÊNCIA ══ -->
+  <div class="zona active" id="zona-agencia">
   <div class="app-main">
   <main>
 
@@ -2300,11 +2296,30 @@
         <label>Link (opcional)</label>
         <input type="url" id="idea-link" placeholder="https://...">
         <!-- Bloco específico para Roteiro (tipo = roteiro) -->
-        <div id="roteiro-fields-group" style="display:none;background:rgba(196,169,107,0.06);border:1.5px solid rgba(196,169,107,0.3);border-radius:10px;padding:14px 16px;margin-top:10px;">
-          <div style="font-family:sans-serif;font-size:0.82rem;font-weight:700;color:var(--dourado-dk);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:10px;">📄 Roteiro · será usado no Teleprompter</div>
-          <label style="margin-bottom:5px;display:block;">Roteiro completo</label>
-          <textarea id="idea-roteiro-texto" placeholder="Escreva ou cole aqui o roteiro completo que vai aparecer no teleprompter..." style="min-height:180px;width:100%;font-family:'Georgia',serif;font-size:0.95rem;line-height:1.6;"></textarea>
-          <div style="font-size:0.72rem;color:var(--grafite);font-family:sans-serif;margin-top:6px;">💡 Dica: ao mover esta ideia para 🎥 Para Gravar, o roteiro aparece automaticamente no Teleprompter</div>
+        <div id="roteiro-fields-group" style="display:none;background:rgba(196,169,107,0.06);border:1.5px solid rgba(196,169,107,0.3);border-radius:12px;padding:16px;margin-top:10px;">
+          <div style="font-family:sans-serif;font-size:0.8rem;font-weight:800;color:var(--dourado-dk);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:14px;">📄 Roteiro · será usado no Teleprompter</div>
+
+          <!-- CAPA -->
+          <div style="margin-bottom:14px;">
+            <div style="font-family:sans-serif;font-size:0.72rem;font-weight:800;color:var(--dourado-dk);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:4px;">📌 Capa / Título de Impacto</div>
+            <div style="font-size:0.73rem;color:var(--grafite);font-family:sans-serif;margin-bottom:6px;">Chamada curta e impactante — aparece na capa do Reels ou thumbnail</div>
+            <input type="text" id="idea-roteiro-capa" placeholder="Ex: VOCÊ ESTÁ PERDENDO DINHEIRO ASSIM" style="width:100%;padding:10px 12px;border:1.5px solid rgba(196,169,107,0.3);border-radius:8px;font-size:0.92rem;font-family:sans-serif;background:#fff;">
+          </div>
+
+          <!-- LEGENDA -->
+          <div style="margin-bottom:14px;">
+            <div style="font-family:sans-serif;font-size:0.72rem;font-weight:800;color:var(--dourado-dk);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:4px;">✍️ Legenda do Post</div>
+            <div style="font-size:0.73rem;color:var(--grafite);font-family:sans-serif;margin-bottom:6px;">Texto para publicar com o vídeo — call to action, perguntas e hashtags</div>
+            <textarea id="idea-roteiro-legenda" placeholder="Ex: Você sabia que a maioria das pessoas ignora este direito?&#10;&#10;Comenta QUERO SABER que eu te explico tudo 👇&#10;&#10;#direito #advogada #dicas" style="min-height:100px;width:100%;padding:10px 12px;border:1.5px solid rgba(196,169,107,0.3);border-radius:8px;font-size:0.88rem;font-family:sans-serif;resize:vertical;line-height:1.5;background:#fff;"></textarea>
+          </div>
+
+          <!-- ROTEIRO -->
+          <div style="background:rgba(196,169,107,0.09);border:1.5px solid rgba(196,169,107,0.35);border-radius:10px;padding:14px 16px;">
+            <div style="font-family:sans-serif;font-size:0.72rem;font-weight:800;color:var(--dourado-dk);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:4px;">🎙️ Roteiro Completo · Teleprompter</div>
+            <div style="font-size:0.73rem;color:var(--grafite);font-family:sans-serif;margin-bottom:8px;">O que você vai falar — palavra por palavra. Aparece automaticamente no Teleprompter.</div>
+            <textarea id="idea-roteiro-texto" placeholder="Escreva ou cole aqui o roteiro completo que vai aparecer no teleprompter..." style="min-height:200px;width:100%;font-family:'Georgia',serif;font-size:0.95rem;line-height:1.7;padding:10px 12px;border:1.5px solid rgba(196,169,107,0.3);border-radius:8px;background:#fff;resize:vertical;"></textarea>
+          </div>
+          <div style="font-size:0.7rem;color:var(--grafite);font-family:sans-serif;margin-top:8px;">💡 Ao mover para 🎥 Para Gravar, o roteiro aparece automaticamente no Teleprompter</div>
         </div>
 
         <!-- Brief Social Media -->
@@ -2983,6 +2998,8 @@ const app = {
     document.getElementById('idea-legenda').value   = idea.legenda   || '';
     document.getElementById('idea-reels-capa').value    = idea.reelsCapa    || '';
     document.getElementById('idea-reels-legenda').value = idea.reelsLegenda || '';
+    document.getElementById('idea-roteiro-capa').value    = idea.roteiroCapa    || '';
+    document.getElementById('idea-roteiro-legenda').value = idea.roteiroLegenda || '';
     const roteiroVal = idea.roteiroTexto || (idea.tipo==='roteiro' ? (idea.descricao||'') : '');
     document.getElementById('idea-roteiro-texto').value  = roteiroVal;
     document.getElementById('idea-reels-roteiro').value  = roteiroVal;
@@ -3062,7 +3079,8 @@ const app = {
       legenda:     document.getElementById('idea-legenda').value.trim()  || null,
       reelsCapa:    document.getElementById('idea-reels-capa').value.trim()    || null,
       reelsLegenda: document.getElementById('idea-reels-legenda').value.trim() || null,
-      // Roteiro pode vir de 2 campos diferentes (bloco principal ou bloco Reels) — usamos o que tem conteúdo
+      roteiroCapa:  document.getElementById('idea-roteiro-capa').value.trim()  || null,
+      roteiroLegenda: document.getElementById('idea-roteiro-legenda').value.trim() || null,
       roteiroTexto: (document.getElementById('idea-roteiro-texto').value.trim() || document.getElementById('idea-reels-roteiro').value.trim()) || null,
       categoria:   document.getElementById('idea-categoria').value    || null,
       responsavel: document.getElementById('idea-responsavel').value  || null,
@@ -4782,7 +4800,6 @@ document.addEventListener('DOMContentLoaded', () => app.init());
 </script>
 
   </div><!-- /app-main -->
-
   </div><!-- /zona-agencia -->
 
   <!-- ══ ZONA: IA ATENDIMENTO ══ -->
@@ -11399,6 +11416,8 @@ Instrução ao cliente: "Ao entrar, digite a opção 1 e envie seu nome completo
     </div><!-- /ia-zona -->
     </div><!-- /ia-zona-wrapper -->
   </div><!-- /zona-ia -->
+
+  </div><!-- /conteudo-wrapper -->
 
 </div><!-- /app -->
 </body>
